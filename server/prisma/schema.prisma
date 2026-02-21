@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  ADVISOR
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tickets   Ticket[] @relation("CreatedTickets")
+  assignedTickets Ticket[] @relation("AssignedTickets")
+  comments  Comment[]
+  payments  Payment[]
+  attachments Attachment[]
+  sessions  Session[]
+  auditLogs AuditLog[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+enum TicketType {
+  WORK_VISA
+  STUDENT_VISA
+  RESIDENCY
+  CITIZENSHIP
+  OTHER
+}
+
+model Ticket {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  status      TicketStatus @default(OPEN)
+  priority    Priority     @default(MEDIUM)
+  type        TicketType   @default(OTHER)
+  metadata    Json?        // Stores timeline progress and checklist status
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  clientId    String
+  client      User         @relation("CreatedTickets", fields: [clientId], references: [id])
+  
+  advisorId   String?
+  advisor     User?        @relation("AssignedTickets", fields: [advisorId], references: [id])
+  
+  comments    Comment[]
+  payments    Payment[]
+  appointments Appointment[]
+  attachments Attachment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id        Int           @id @default(autoincrement())
+  amount    Decimal
+  currency  String        @default("USD")
+  status    PaymentStatus @default(PENDING)
+  paypalOrderId String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+
+  ticketId  Int?
+  ticket    Ticket?       @relation(fields: [ticketId], references: [id])
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  url       String
+  fileType  String?
+  size      Int?
+  createdAt DateTime @default(now())
+
+  ticketId  Int?
+  ticket    Ticket?  @relation(fields: [ticketId], references: [id])
+
+  uploaderId String
+  uploader   User    @relation(fields: [uploaderId], references: [id])
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String   // CREATE, UPDATE, DELETE, LOGIN, ETC
+  entity    String   // TICKET, USER, PAYMENT
+  entityId  String   // ID of the entity affected
+  details   String?  // JSON string or description of changes
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  type      String   // MEDICAL | PSYCHOLOGICAL
+  link      String?
+  status    String   @default("SCHEDULED") // SCHEDULED | COMPLETED | CANCELLED
+  createdAt DateTime @default(now())
+
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+}

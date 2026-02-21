@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer base {
+    body {
+        @apply bg-slate-950 text-slate-100 antialiased;
+        background: radial-gradient(circle at top left, #0f172a 0%, #020617 100%);
+        min-height: 100vh;
+    }
+}
+
+@layer utilities {
+    .glass {
+        @apply bg-slate-900/40 backdrop-blur-xl border border-slate-800/50;
+    }
+
+    .glass-hover {
+        @apply hover:bg-slate-800/60 hover:border-slate-700 transition-all duration-300;
+    }
+}

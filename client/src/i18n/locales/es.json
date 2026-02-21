@@ -1,0 +1,284 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ha ocurrido un error",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "actions": "Acciones",
+        "search": "Buscar...",
+        "filter": "Filtrar",
+        "status": "Estado",
+        "priority": "Prioridad",
+        "date": "Fecha",
+        "user": "Usuario",
+        "role": "Rol",
+        "view_all": "Ver todos",
+        "no_data": "No hay expedientes para mostrar"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "tickets": "Mis Trámites",
+        "users": "Usuarios",
+        "logout": "Cerrar Sesión",
+        "new_ticket": "Nuevo Trámite"
+    },
+    "dashboard": {
+        "welcome": "Bienvenido a New Horizons",
+        "new_requests": "Solicitudes Nuevas",
+        "in_progress": "Procesos en Trámite",
+        "resolved": "Finalizados / Aprobados",
+        "recent_activity": "Actividad Reciente"
+    },
+    "ticket_status": {
+        "OPEN": "Solicitud Recibida",
+        "IN_PROGRESS": "En Trámite",
+        "RESOLVED": "Aprobado / Finalizado",
+        "CLOSED": "Archivado"
+    },
+    "ticket_priority": {
+        "LOW": "Normal",
+        "MEDIUM": "Prioritario",
+        "HIGH": "Urgente",
+        "URGENT": "Inmediato"
+    },
+    "roles": {
+        "CLIENT": "Cliente",
+        "ADVISOR": "Asesor",
+        "ADMIN": "Administrador"
+    },
+    "auth": {
+        "login": {
+            "welcome": "Bienvenido",
+            "subtitle": "Ingresa a tu cuenta para continuar",
+            "action": "Iniciar Sesión",
+            "no_account": "¿No tienes cuenta?",
+            "register_link": "Regístrate aquí",
+            "forgot_password": "¿Olvidaste tu contraseña?"
+        },
+        "signup": {
+            "title": "Crear Cuenta",
+            "subtitle": "Únete para gestionar tus tickets",
+            "action": "Registrarse",
+            "has_account": "¿Ya tienes cuenta?",
+            "login_link": "Ingresa aquí"
+        },
+        "fields": {
+            "name": "Nombre Completo",
+            "email": "Correo Electrónico",
+            "password": "Contraseña"
+        },
+        "errors": {
+            "invalid_credentials": "Credenciales inválidas o error de servidor",
+            "signup_failed": "Error al registrarse. Intenta nuevamente."
+        }
+    },
+    "ticket": {
+        "create": {
+            "title": "Nueva Solicitud de Servicio",
+            "subtitle": "Inicia tu proceso migratorio con New Horizons describiendo tu caso.",
+            "back": "Volver a Mis Trámites",
+            "submit": "Iniciar Trámite",
+            "submitting": "Iniciando...",
+            "priority_help": "Selecciona la urgencia real del impacto en tu negocio."
+        },
+        "detail": {
+            "case_number": "Expediente #",
+            "details": "Detalles del Caso",
+            "comments": "Comentarios",
+            "attachments": "Archivos Adjuntos",
+            "started": "Iniciado:",
+            "priority": "Prioridad",
+            "not_found": "Caso no encontrado"
+        },
+        "fields": {
+            "subject": "Asunto del Caso",
+            "type": "Tipo de Trámite",
+            "priority": "Prioridad",
+            "description": "Descripción Detallada",
+            "attachments": "Adjuntos (Opcional)"
+        },
+        "placeholders": {
+            "subject": "Ej: Error al sincronizar facturas...",
+            "description": "Explica qué estabas haciendo, qué esperabas que pasara y qué pasó realmente..."
+        },
+        "upload": {
+            "click_to_upload": "Click para subir archivos",
+            "drag_and_drop": "o arrastra y suelta aquí (PDF, PNG, JPG)",
+            "select_files": "Seleccionar Archivos",
+            "upload_btn": "Subir",
+            "file": "archivo",
+            "files": "archivos"
+        }
+    },
+    "ticket_config": {
+        "types": {
+            "WORK_VISA": {
+                "label": "Visa de Trabajo",
+                "description": "Proceso para obtener permiso de trabajo en el extranjero."
+            },
+            "STUDENT_VISA": {
+                "label": "Visa de Estudiante",
+                "description": "Para cursar estudios académicos o de idiomas."
+            },
+            "RESIDENCY": {
+                "label": "Residencia Permanente",
+                "description": "Proceso de arraigo y residencia definitiva."
+            },
+            "CITIZENSHIP": {
+                "label": "Ciudadanía",
+                "description": "Naturalización y obtención de pasaporte."
+            },
+            "OTHER": {
+                "label": "Otro Trámite",
+                "description": "Consulta general o trámite no listado."
+            }
+        },
+        "stages": {
+            "REQUEST_RECEIVED": {
+                "label": "Solicitud Iniciada",
+                "description": "Cliente visualiza su petición."
+            },
+            "HR_INTERVIEW": {
+                "label": "Entrevista RRHH",
+                "description": "Aprobación de patrocinio y pago del 35%."
+            },
+            "MEDICAL_EXAMS": {
+                "label": "Exámenes Médicos",
+                "description": "Agendamiento de exámenes físicos y psicológicos."
+            },
+            "SPONSORSHIP": {
+                "label": "Carta Patrocinio",
+                "description": "Entrega de carta oficial de patrocinio."
+            },
+            "VISA_INTERVIEW": {
+                "label": "Entrevista Embajada",
+                "description": "Presentación ante la embajada."
+            },
+            "FINALIZATION": {
+                "label": "Finalización",
+                "description": "Compra de vuelos y recepción de documentos."
+            },
+            "DOCS_COLLECTION": {
+                "label": "Recolección de Documentos",
+                "description": "El cliente debe subir todos los documentos requeridos."
+            },
+            "LEGAL_REVIEW": {
+                "label": "Revisión Legal",
+                "description": "Nuestro equipo revisa la documentación."
+            },
+            "FILING": {
+                "label": "Radicación",
+                "description": "Se envía la solicitud a la entidad gubernamental."
+            },
+            "AWAITING_DECISION": {
+                "label": "Espera de Respuesta",
+                "description": "Esperando decisión oficial."
+            },
+            "APPROVED": {
+                "label": "Aprobado",
+                "description": "Visa aprobada y entregada."
+            },
+            "ADMISSION": {
+                "label": "Admisión Académica",
+                "description": "Obtener carta de aceptación."
+            },
+            "DECISION": {
+                "label": "Decisión",
+                "description": "Respuesta consular."
+            },
+            "ELIGIBILITY": {
+                "label": "Análisis de Elegibilidad",
+                "description": "Verificación de puntaje y requisitos."
+            },
+            "INTERVIEW": {
+                "label": "Entrevista",
+                "description": "Cita con oficial de migración."
+            },
+            "APP_REVIEW": {
+                "label": "Revisión de Solicitud",
+                "description": "Verificación de tiempos de residencia."
+            },
+            "EXAM": {
+                "label": "Examen de Ciudadanía",
+                "description": "Prueba de conocimientos e idioma."
+            },
+            "OATH": {
+                "label": "Juramento",
+                "description": "Ceremonia de ciudadanía."
+            },
+            "OPEN": {
+                "label": "Abierto",
+                "description": ""
+            },
+            "IN_PROGRESS": {
+                "label": "En Proceso",
+                "description": ""
+            },
+            "RESOLVED": {
+                "label": "Resuelto",
+                "description": ""
+            }
+        },
+        "checklist": {
+            "PASSPORT": "Pasaporte Vigente",
+            "CONTRACT": "Contrato de Trabajo",
+            "CV": "Curriculum Vitae",
+            "DIPLOMA": "Títulos Académicos",
+            "PHOTO": "Foto Fondo Blanco",
+            "ACCEPTANCE_LETTER": "Carta de Aceptación",
+            "BANK_stmts": "Extractos Bancarios",
+            "BIRTH_CERT": "Registro de Nacimiento",
+            "POLICE_RECORD": "Antecedentes Penales",
+            "MARRIAGE_CERT": "Certificado de Matrimonio",
+            "RESIDENCY_CARD": "Tarjeta de Residencia",
+            "TAX_RETURNS": "Declaraciones de Impuestos",
+            "ID_PHOTOS": "Fotos Tipo Pasaporte"
+        }
+    },
+    "users": {
+        "title": "Usuarios",
+        "subtitle": "Administra los usuarios del sistema",
+        "create_new": "Nuevo Usuario",
+        "login_as": "Iniciar sesión",
+        "current": "Actual"
+    },
+    "modals": {
+        "create_user": {
+            "title": "Nuevo Usuario",
+            "fields": {
+                "name": "Nombre Completo",
+                "email": "Email",
+                "password": "Contraseña",
+                "role": "Rol"
+            },
+            "submit": "Crear Usuario",
+            "submitting": "Creando..."
+        }
+    },
+    "filters": {
+        "title": "Filtros",
+        "show": "Mostrar",
+        "hide": "Ocultar",
+        "clear": "Limpiar Filtros",
+        "search": {
+            "label": "Buscar",
+            "placeholder": "Buscar por título o descripción..."
+        },
+        "all": "Todos",
+        "advisor": "Asesor",
+        "client": "Cliente"
+    },
+    "comments": {
+        "placeholder": "Escribe un comentario...",
+        "send": "Enviar",
+        "no_comments": "No hay comentarios aún. ¡Sé el primero en comentar!"
+    },
+    "attachments": {
+        "no_attachments": "No hay archivos adjuntos",
+        "unknown_size": "Desconocido",
+        "uploaded_by": "Subido por {{name}}",
+        "download": "Descargar archivo"
+    }
+}

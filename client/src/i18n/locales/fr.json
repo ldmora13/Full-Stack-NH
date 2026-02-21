@@ -1,0 +1,284 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur est survenue",
+        "save": "Sauvegarder",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "actions": "Actions",
+        "search": "Rechercher...",
+        "filter": "Filtrer",
+        "status": "Statut",
+        "priority": "Priorité",
+        "date": "Date",
+        "user": "Utilisateur",
+        "role": "Rôle",
+        "view_all": "Voir tout",
+        "no_data": "Aucun dossier à afficher"
+    },
+    "nav": {
+        "dashboard": "Tableau de bord",
+        "tickets": "Mes Dossiers",
+        "users": "Utilisateurs",
+        "logout": "Déconnexion",
+        "new_ticket": "Nouvelle Demande"
+    },
+    "dashboard": {
+        "welcome": "Bienvenue chez New Horizons",
+        "new_requests": "Nouvelles Demandes",
+        "in_progress": "En Cours",
+        "resolved": "Terminé / Approuvé",
+        "recent_activity": "Activité Récente"
+    },
+    "ticket_status": {
+        "OPEN": "Demande Reçue",
+        "IN_PROGRESS": "En Cours",
+        "RESOLVED": "Approuvé / Terminé",
+        "CLOSED": "Archivé"
+    },
+    "ticket_priority": {
+        "LOW": "Normal",
+        "MEDIUM": "Prioritaire",
+        "HIGH": "Urgent",
+        "URGENT": "Immédiat"
+    },
+    "roles": {
+        "CLIENT": "Client",
+        "ADVISOR": "Conseiller",
+        "ADMIN": "Admin"
+    },
+    "auth": {
+        "login": {
+            "welcome": "Bienvenue",
+            "subtitle": "Connectez-vous à votre compte pour continuer",
+            "action": "Se connecter",
+            "no_account": "Vous n'avez pas de compte ?",
+            "register_link": "Inscrivez-vous ici",
+            "forgot_password": "Mot de passe oublié ?"
+        },
+        "signup": {
+            "title": "Créer un compte",
+            "subtitle": "Rejoignez-nous pour gérer vos tickets",
+            "action": "S'inscrire",
+            "has_account": "Vous avez déjà un compte ?",
+            "login_link": "Connectez-vous ici"
+        },
+        "fields": {
+            "name": "Nom complet",
+            "email": "Adresse e-mail",
+            "password": "Mot de passe"
+        },
+        "errors": {
+            "invalid_credentials": "Identifiants invalides ou erreur serveur",
+            "signup_failed": "Échec de l'inscription. Réessayez."
+        }
+    },
+    "ticket": {
+        "create": {
+            "title": "Nouvelle Demande de Service",
+            "subtitle": "Commencez votre processus d'immigration avec New Horizons.",
+            "back": "Retour à Mes Dossiers",
+            "submit": "Démarrer",
+            "submitting": "Démarrage...",
+            "priority_help": "Sélectionnez l'urgence réelle de l'impact sur votre entreprise."
+        },
+        "detail": {
+            "case_number": "Dossier #",
+            "details": "Détails du Dossier",
+            "comments": "Commentaires",
+            "attachments": "Pièces Jointes",
+            "started": "Commencé:",
+            "priority": "Priorité",
+            "not_found": "Dossier introuvable"
+        },
+        "fields": {
+            "subject": "Sujet du Dossier",
+            "type": "Type de Processus",
+            "priority": "Priorité",
+            "description": "Description Détaillée",
+            "attachments": "Pièces Jointes (Optionnel)"
+        },
+        "placeholders": {
+            "subject": "Ex: Erreur de synchronisation des factures...",
+            "description": "Expliquez ce que vous faisiez, ce que vous attendiez et ce qui s'est réellement passé..."
+        },
+        "upload": {
+            "click_to_upload": "Cliquez pour télécharger",
+            "drag_and_drop": "ou glissez-déposez ici (PDF, PNG, JPG)",
+            "select_files": "Sélectionner des fichiers",
+            "upload_btn": "Télécharger",
+            "file": "fichier",
+            "files": "fichiers"
+        }
+    },
+    "ticket_config": {
+        "types": {
+            "WORK_VISA": {
+                "label": "Visa de Travail",
+                "description": "Processus pour obtenir un permis de travail à l'étranger."
+            },
+            "STUDENT_VISA": {
+                "label": "Visa Étudiant",
+                "description": "Pour poursuivre des études académiques ou linguistiques."
+            },
+            "RESIDENCY": {
+                "label": "Résidence Permanente",
+                "description": "Processus d'établissement et de résidence permanente."
+            },
+            "CITIZENSHIP": {
+                "label": "Citoyenneté",
+                "description": "Naturalisation et obtention d'un passeport."
+            },
+            "OTHER": {
+                "label": "Autre Processus",
+                "description": "Demande générale ou processus non listé."
+            }
+        },
+        "stages": {
+            "REQUEST_RECEIVED": {
+                "label": "Demande Reçue",
+                "description": "Le client consulte sa demande."
+            },
+            "HR_INTERVIEW": {
+                "label": "Entretien RH",
+                "description": "Approbation du parrainage et paiement de 35%."
+            },
+            "MEDICAL_EXAMS": {
+                "label": "Examens Médicaux",
+                "description": "Planification des examens physiques et psychologiques."
+            },
+            "SPONSORSHIP": {
+                "label": "Lettre de Parrainage",
+                "description": "Remise de la lettre officielle."
+            },
+            "VISA_INTERVIEW": {
+                "label": "Entretien Ambassade",
+                "description": "Présentation à l'ambassade."
+            },
+            "FINALIZATION": {
+                "label": "Finalisation",
+                "description": "Achat de billets et réception des documents."
+            },
+            "DOCS_COLLECTION": {
+                "label": "Collecte de Documents",
+                "description": "Le client doit télécharger tous les documents requis."
+            },
+            "LEGAL_REVIEW": {
+                "label": "Revue Légale",
+                "description": "Notre équipe examine la documentation."
+            },
+            "FILING": {
+                "label": "Dépôt",
+                "description": "La demande est envoyée à l'entité gouvernementale."
+            },
+            "AWAITING_DECISION": {
+                "label": "En Attente de Décision",
+                "description": "En attente de la décision officielle."
+            },
+            "APPROVED": {
+                "label": "Approuvé",
+                "description": "Visa approuvé et délivré."
+            },
+            "ADMISSION": {
+                "label": "Admission Académique",
+                "description": "Obtenir une lettre d'acceptation."
+            },
+            "DECISION": {
+                "label": "Décision",
+                "description": "Réponse consulaire."
+            },
+            "ELIGIBILITY": {
+                "label": "Analyse d'Éligibilité",
+                "description": "Vérification des points et des exigences."
+            },
+            "INTERVIEW": {
+                "label": "Entretien",
+                "description": "Rendez-vous avec l'officier de migration."
+            },
+            "APP_REVIEW": {
+                "label": "Revue de la Demande",
+                "description": "Vérification des temps de résidence."
+            },
+            "EXAM": {
+                "label": "Examen de Citoyenneté",
+                "description": "Test de connaissances et de langue."
+            },
+            "OATH": {
+                "label": "Serment",
+                "description": "Cérémonie de citoyenneté."
+            },
+            "OPEN": {
+                "label": "Ouvert",
+                "description": ""
+            },
+            "IN_PROGRESS": {
+                "label": "En Cours",
+                "description": ""
+            },
+            "RESOLVED": {
+                "label": "Résolu",
+                "description": ""
+            }
+        },
+        "checklist": {
+            "PASSPORT": "Passeport Valide",
+            "CONTRACT": "Contrat de Travail",
+            "CV": "Curriculum Vitae",
+            "DIPLOMA": "Diplômes Académiques",
+            "PHOTO": "Photo Fond Blanc",
+            "ACCEPTANCE_LETTER": "Lettre d'Acceptation",
+            "BANK_stmts": "Relevés Bancaires",
+            "BIRTH_CERT": "Acte de Naissance",
+            "POLICE_RECORD": "Casier Judiciaire",
+            "MARRIAGE_CERT": "Certificat de Mariage",
+            "RESIDENCY_CARD": "Carte de Résidence",
+            "TAX_RETURNS": "Déclarations d'Impôts",
+            "ID_PHOTOS": "Photos Type Passeport"
+        }
+    },
+    "users": {
+        "title": "Utilisateurs",
+        "subtitle": "Gérer les utilisateurs du système",
+        "create_new": "Nouvel Utilisateur",
+        "login_as": "Se connecter en tant que",
+        "current": "Actuel"
+    },
+    "modals": {
+        "create_user": {
+            "title": "Nouvel Utilisateur",
+            "fields": {
+                "name": "Nom Complet",
+                "email": "Email",
+                "password": "Mot de passe",
+                "role": "Rôle"
+            },
+            "submit": "Créer l'utilisateur",
+            "submitting": "Création..."
+        }
+    },
+    "filters": {
+        "title": "Filtres",
+        "show": "Afficher",
+        "hide": "Masquer",
+        "clear": "Effacer les filtres",
+        "search": {
+            "label": "Rechercher",
+            "placeholder": "Rechercher par titre ou description..."
+        },
+        "all": "Tous",
+        "advisor": "Conseiller",
+        "client": "Client"
+    },
+    "comments": {
+        "placeholder": "Écrire un commentaire...",
+        "send": "Envoyer",
+        "no_comments": "Aucun commentaire pour le moment. Soyez le premier à commenter !"
+    },
+    "attachments": {
+        "no_attachments": "Aucune pièce jointe",
+        "unknown_size": "Inconnu",
+        "uploaded_by": "Téléchargé par {{name}}",
+        "download": "Télécharger le fichier"
+    }
+}

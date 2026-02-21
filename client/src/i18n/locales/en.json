@@ -1,0 +1,284 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "actions": "Actions",
+        "search": "Search...",
+        "filter": "Filter",
+        "status": "Status",
+        "priority": "Priority",
+        "date": "Date",
+        "user": "User",
+        "role": "Role",
+        "view_all": "View all",
+        "no_data": "No cases to display"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "tickets": "My Cases",
+        "users": "Users",
+        "logout": "Logout",
+        "new_ticket": "New Service Request"
+    },
+    "dashboard": {
+        "welcome": "Welcome to New Horizons",
+        "new_requests": "New Requests",
+        "in_progress": "In Progress",
+        "resolved": "Completed / Approved",
+        "recent_activity": "Recent Activity"
+    },
+    "ticket_status": {
+        "OPEN": "Request Received",
+        "IN_PROGRESS": "In Progress",
+        "RESOLVED": "Approved / Completed",
+        "CLOSED": "Archived"
+    },
+    "ticket_priority": {
+        "LOW": "Normal",
+        "MEDIUM": "Priority",
+        "HIGH": "Urgent",
+        "URGENT": "Immediate"
+    },
+    "roles": {
+        "CLIENT": "Client",
+        "ADVISOR": "Advisor",
+        "ADMIN": "Admin"
+    },
+    "auth": {
+        "login": {
+            "welcome": "Welcome",
+            "subtitle": "Sign in to your account to continue",
+            "action": "Sign In",
+            "no_account": "Don't have an account?",
+            "register_link": "Register here",
+            "forgot_password": "Forgot your password?"
+        },
+        "signup": {
+            "title": "Create Account",
+            "subtitle": "Join to manage your tickets",
+            "action": "Sign Up",
+            "has_account": "Already have an account?",
+            "login_link": "Login here"
+        },
+        "fields": {
+            "name": "Full Name",
+            "email": "Email Address",
+            "password": "Password"
+        },
+        "errors": {
+            "invalid_credentials": "Invalid credentials or server error",
+            "signup_failed": "Registration failed. Try again."
+        }
+    },
+    "ticket": {
+        "create": {
+            "title": "New Service Request",
+            "subtitle": "Start your immigration process with New Horizons.",
+            "back": "Back to My Cases",
+            "submit": "Start Process",
+            "submitting": "Starting...",
+            "priority_help": "Select the real urgency of the impact on your business."
+        },
+        "detail": {
+            "case_number": "Case #",
+            "details": "Case Details",
+            "comments": "Comments",
+            "attachments": "Attachments",
+            "started": "Started:",
+            "priority": "Priority",
+            "not_found": "Case not found"
+        },
+        "fields": {
+            "subject": "Case Subject",
+            "type": "Process Type",
+            "priority": "Priority",
+            "description": "Detailed Description",
+            "attachments": "Attachments (Optional)"
+        },
+        "placeholders": {
+            "subject": "Ex: Error syncing invoices...",
+            "description": "Explain what you were doing, what you expected to happen, and what actually happened..."
+        },
+        "upload": {
+            "click_to_upload": "Click to upload files",
+            "drag_and_drop": "or drag and drop here (PDF, PNG, JPG)",
+            "select_files": "Select Files",
+            "upload_btn": "Upload",
+            "file": "file",
+            "files": "files"
+        }
+    },
+    "ticket_config": {
+        "types": {
+            "WORK_VISA": {
+                "label": "Work Visa",
+                "description": "Process to obtain a work permit abroad."
+            },
+            "STUDENT_VISA": {
+                "label": "Student Visa",
+                "description": "To pursue academic or language studies."
+            },
+            "RESIDENCY": {
+                "label": "Permanent Residency",
+                "description": "Process for settlement and permanent residence."
+            },
+            "CITIZENSHIP": {
+                "label": "Citizenship",
+                "description": "Naturalization and obtaining a passport."
+            },
+            "OTHER": {
+                "label": "Other Process",
+                "description": "General inquiry or unlisted process."
+            }
+        },
+        "stages": {
+            "REQUEST_RECEIVED": {
+                "label": "Request Received",
+                "description": "Client views their request status."
+            },
+            "HR_INTERVIEW": {
+                "label": "HR Interview",
+                "description": "Sponsorship approval and 35% payment."
+            },
+            "MEDICAL_EXAMS": {
+                "label": "Medical Exams",
+                "description": "Scheduling physical and psychological exams."
+            },
+            "SPONSORSHIP": {
+                "label": "Sponsorship Letter",
+                "description": "Delivery of official sponsorship letter."
+            },
+            "VISA_INTERVIEW": {
+                "label": "Embassy Interview",
+                "description": "Presentation at the embassy."
+            },
+            "FINALIZATION": {
+                "label": "Finalization",
+                "description": "Flight purchase and document receipt."
+            },
+            "DOCS_COLLECTION": {
+                "label": "Document Collection",
+                "description": "The client must upload all required documents."
+            },
+            "LEGAL_REVIEW": {
+                "label": "Legal Review",
+                "description": "Our team reviews the documentation."
+            },
+            "FILING": {
+                "label": "Filing",
+                "description": "The application is sent to the government entity."
+            },
+            "AWAITING_DECISION": {
+                "label": "Awaiting Decision",
+                "description": "Waiting for official decision."
+            },
+            "APPROVED": {
+                "label": "Approved",
+                "description": "Visa approved and delivered."
+            },
+            "ADMISSION": {
+                "label": "Academic Admission",
+                "description": "Obtain acceptance letter."
+            },
+            "DECISION": {
+                "label": "Decision",
+                "description": "Consular response."
+            },
+            "ELIGIBILITY": {
+                "label": "Eligibility Analysis",
+                "description": "Verification of points and requirements."
+            },
+            "INTERVIEW": {
+                "label": "Interview",
+                "description": "Appointment with migration officer."
+            },
+            "APP_REVIEW": {
+                "label": "Application Review",
+                "description": "Verification of residency times."
+            },
+            "EXAM": {
+                "label": "Citizenship Exam",
+                "description": "Knowledge and language test."
+            },
+            "OATH": {
+                "label": "Oath",
+                "description": "Citizenship ceremony."
+            },
+            "OPEN": {
+                "label": "Open",
+                "description": ""
+            },
+            "IN_PROGRESS": {
+                "label": "In Progress",
+                "description": ""
+            },
+            "RESOLVED": {
+                "label": "Resolved",
+                "description": ""
+            }
+        },
+        "checklist": {
+            "PASSPORT": "Valid Passport",
+            "CONTRACT": "Employment Contract",
+            "CV": "Curriculum Vitae",
+            "DIPLOMA": "Academic Degrees",
+            "PHOTO": "White Background Photo",
+            "ACCEPTANCE_LETTER": "Acceptance Letter",
+            "BANK_stmts": "Bank Statements",
+            "BIRTH_CERT": "Birth Certificate",
+            "POLICE_RECORD": "Criminal Record",
+            "MARRIAGE_CERT": "Marriage Certificate",
+            "RESIDENCY_CARD": "Residency Card",
+            "TAX_RETURNS": "Tax Returns",
+            "ID_PHOTOS": "Passport Type Photos"
+        }
+    },
+    "users": {
+        "title": "Users",
+        "subtitle": "Manage system users",
+        "create_new": "New User",
+        "login_as": "Login as",
+        "current": "Current"
+    },
+    "modals": {
+        "create_user": {
+            "title": "New User",
+            "fields": {
+                "name": "Full Name",
+                "email": "Email",
+                "password": "Password",
+                "role": "Role"
+            },
+            "submit": "Create User",
+            "submitting": "Creating..."
+        }
+    },
+    "filters": {
+        "title": "Filters",
+        "show": "Show",
+        "hide": "Hide",
+        "clear": "Clear Filters",
+        "search": {
+            "label": "Search",
+            "placeholder": "Search by title or description..."
+        },
+        "all": "All",
+        "advisor": "Advisor",
+        "client": "Client"
+    },
+    "comments": {
+        "placeholder": "Write a comment...",
+        "send": "Send",
+        "no_comments": "No comments yet. Be the first to comment!"
+    },
+    "attachments": {
+        "no_attachments": "No attachments",
+        "unknown_size": "Unknown",
+        "uploaded_by": "Uploaded by {{name}}",
+        "download": "Download file"
+    }
+}
