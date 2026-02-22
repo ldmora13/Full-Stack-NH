@@ -4,18 +4,22 @@ import { client } from '../config/paypal';
 import paypal from '@paypal/checkout-server-sdk';
 import { db } from '../lib/db';
 import { AppError } from '../utils/AppError';
-import { PROGRAM_PRICING, calculateTotal, ProgramId } from '../config/pricing';
+import { PROGRAM_PRICING, ProgramId } from '../config/pricing';
 import { hash } from '@node-rs/argon2';
 import { TicketType, Priority } from '@prisma/client';
 
 export const initCheckout = catchAsync(async (req: Request, res: Response) => {
-    const { programId, adults, children } = req.body;
+    const { programId, amount, adults, children } = req.body;
 
     if (!PROGRAM_PRICING[programId as ProgramId]) {
         throw new AppError('Invalid program selected', 400);
     }
 
-    const totalAmount = calculateTotal(programId as ProgramId, Number(adults), Number(children));
+    // Use the amount sent from the frontend directly — no server-side recalculation
+    const totalAmount = parseFloat(amount);
+    if (isNaN(totalAmount) || totalAmount <= 0) {
+        throw new AppError('Invalid amount provided', 400);
+    }
 
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer("return=representation");
@@ -27,7 +31,7 @@ export const initCheckout = catchAsync(async (req: Request, res: Response) => {
                 value: totalAmount.toFixed(2)
             },
             description: `${PROGRAM_PRICING[programId as ProgramId].label} - ${adults} Adults, ${children} Children`,
-            custom_id: JSON.stringify({ programId, adults, children }) // Store metadata
+            custom_id: JSON.stringify({ programId, adults, children })
         }]
     });
 
@@ -65,20 +69,14 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
 
     const captureData = capture.result.purchase_units[0].payments.captures[0];
 
-    // 2. Parse Metadata (relying on what we sent or just using request body if needed, 
-    // but better to verify with what user selected)
-    // For simplicity, we assume clientDetails passed from frontend matches intent.
-    // Ideally we read custom_id but PayPal sometimes truncates it. 
-    // We will trust the successful payment amount and create the services accordingly.
-
-    // 3. Find or Create User
+    // 2. Find or Create User
     let user = await db.user.findUnique({ where: { email: clientDetails.email } });
     let isNewUser = false;
     let tempPassword = '';
 
     if (!user) {
         isNewUser = true;
-        tempPassword = Math.random().toString(36).slice(-8) + 'A1!'; // Simple random password
+        tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
 
         const hashedPassword = await hash(tempPassword, {
             memoryCost: 19456,
@@ -97,11 +95,7 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         });
     }
 
-    // 4. Create Ticket (Map Program ID to TicketType)
-    // Mapping EB-1 -> IMMIGRATION, etc. For now defaulting to IMMIGRATION type
-    // We need to support the types defined in TicketType enum: VISA, CITIZENSHIP, IMMIGRATION, LEGAL_ADVICE
-
-    // We can infer type from programId or just use IMMIGRATION for all "Programs"
+    // 3. Map program label to ticket type
     let ticketType: TicketType;
 
     switch (clientDetails.programLabel) {
@@ -129,7 +123,7 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         }
     });
 
-    // 5. Record Payment
+    // 4. Record Payment — uses the actual captured amount from PayPal
     await db.payment.create({
         data: {
             amount: parseFloat(captureData.amount.value),
@@ -141,11 +135,11 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         }
     });
 
-    // 6. Response
+    // 5. Response
     res.json({
         status: 'SUCCESS',
         isNewUser,
-        tempPassword: isNewUser ? tempPassword : null, // In production, SEND VIA USER EMAIL ONLY
+        tempPassword: isNewUser ? tempPassword : null,
         ticketId: ticket.id,
         userEmail: user.email
     });
