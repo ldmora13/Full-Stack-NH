@@ -1,4 +1,5 @@
 import { transporter } from '../config/email';
+import { resend } from '../config/resend';
 
 interface EmailOptions {
     to: string;
@@ -9,19 +10,68 @@ interface EmailOptions {
 export const EmailService = {
     sendEmail: async ({ to, subject, html }: EmailOptions) => {
         try {
-            const info = await transporter.sendMail({
-                from: `New Horizons <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+            const { data, error } = await resend.emails.send({
+                from: 'New Horizons <noreply@tudominio.com>',
                 to,
                 subject,
                 html,
             });
-            console.log('Message sent: %s', info.messageId);
-            return info;
+            if (error) console.error('Resend error:', error);
+            return data;
         } catch (error) {
             console.error('Error sending email:', error);
-            // Don't throw error to prevent blocking the main flow
             return null;
         }
+    },
+
+    sendCheckoutCredentials: async (user: {
+        email: string;
+        name: string;
+    }, credentials: {
+        tempPassword: string;
+        ticketId: number;
+        programLabel: string;
+        portalUrl: string;
+    }) => {
+        const subject = '🎉 Bienvenido a New Horizons — Tus Credenciales de Acceso';
+        const html = `
+            <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #1e3a5f, #2563eb); padding: 32px; border-radius: 12px 12px 0 0; text-align: center;">
+                    <h1 style="color: white; margin: 0; font-size: 24px;">¡Bienvenido a New Horizons!</h1>
+                </div>
+                <div style="background: #f9fafb; padding: 32px; border: 1px solid #e5e7eb;">
+                    <p style="font-size: 16px;">Hola <strong>${user.name}</strong>,</p>
+                    <p>Tu pago fue procesado exitosamente. Hemos creado tu cuenta en el portal para que puedas hacer seguimiento de tu proceso migratorio.</p>
+
+                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; margin: 24px 0;">
+                        <h2 style="margin: 0 0 16px; font-size: 16px; color: #374151;">📋 Resumen de tu solicitud</h2>
+                        <p style="margin: 4px 0; color: #6b7280; font-size: 14px;"><strong>Programa:</strong> ${credentials.programLabel}</p>
+                        <p style="margin: 4px 0; color: #6b7280; font-size: 14px;"><strong>Número de caso:</strong> #${credentials.ticketId}</p>
+                    </div>
+
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 24px; margin: 24px 0;">
+                        <h2 style="margin: 0 0 16px; font-size: 16px; color: #1d4ed8;">🔐 Tus Credenciales de Acceso</h2>
+                        <p style="margin: 4px 0; font-size: 14px;"><strong>Email:</strong> ${user.email}</p>
+                        <p style="margin: 4px 0; font-size: 14px;"><strong>Contraseña temporal:</strong> 
+                            <code style="background: #dbeafe; padding: 2px 8px; border-radius: 4px; font-size: 15px; letter-spacing: 1px;">${credentials.tempPassword}</code>
+                        </p>
+                        <p style="margin-top: 12px; font-size: 12px; color: #6b7280;">⚠️ Por seguridad, te recomendamos cambiar esta contraseña al iniciar sesión por primera vez.</p>
+                    </div>
+
+                    <div style="text-align: center; margin: 32px 0;">
+                        <a href="${credentials.portalUrl}" style="background: #2563eb; color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">
+                            Acceder al Portal →
+                        </a>
+                    </div>
+
+                    <p style="color: #6b7280; font-size: 13px;">Si tienes alguna pregunta, no dudes en contactarnos respondiendo a este email.</p>
+                </div>
+                <div style="background: #1f2937; padding: 16px; border-radius: 0 0 12px 12px; text-align: center;">
+                    <p style="color: #9ca3af; font-size: 12px; margin: 0;">© New Horizons Immigration Law • Todos los derechos reservados</p>
+                </div>
+            </div>
+        `;
+        return EmailService.sendEmail({ to: user.email, subject, html });
     },
 
     sendWelcomeEmail: async (user: { email: string; name: string }) => {

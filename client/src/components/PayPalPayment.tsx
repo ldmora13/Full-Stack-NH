@@ -54,13 +54,13 @@ export default function PayPalPayment({ amount, ticketId, onSuccess, onError, cu
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex flex-col items-center gap-4 text-center"
+                className="p-6 bg-blue-500/10 border border-blue-500/20 rounded-xl flex flex-col items-center gap-4 text-center"
             >
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                    <CheckCircle className="w-8 h-8 text-emerald-400" />
+                <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <CheckCircle className="w-8 h-8 text-blue-400" />
                 </div>
                 <div>
-                    <h3 className="text-lg font-semibold text-emerald-400">{t('payments.success')}</h3>
+                    <h3 className="text-lg font-semibold text-blue-400">{t('payments.success')}</h3>
                     <p className="text-sm text-slate-400">{t('payments.success_desc')}</p>
                 </div>
             </motion.div>

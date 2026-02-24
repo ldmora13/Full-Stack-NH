@@ -24,13 +24,13 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
         <Menu as="div" className={clsx("relative inline-block text-left", collapsed ? "" : "w-full")}>
             <Menu.Button
                 className={clsx(
-                    "group flex items-center gap-3 rounded-xl transition-all duration-200 outline-none focus:ring-2 focus:ring-emerald-500/50",
+                    "group flex items-center gap-3 rounded-xl transition-all duration-200 outline-none",
                     collapsed
                         ? "p-2 text-slate-400 hover:text-white hover:bg-slate-800/50"
                         : "w-full px-0 py-2 text-slate-400 hover:text-slate-200"
                 )}
             >
-                <div className={clsx("p-2 rounded-lg transition-colors", collapsed ? "" : "bg-slate-800/50 group-hover:bg-slate-800 text-emerald-400")}>
+                <div className={clsx("p-2 rounded-lg transition-colors", collapsed ? "" : "bg-slate-800/50 group-hover:bg-slate-800 text-blue-400")}>
                     <Globe className="w-5 h-5" />
                 </div>
                 {!collapsed && (
@@ -56,7 +56,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                 >
                     <Menu.Items
                         className={clsx(
-                            "absolute z-50 mb-2 w-56 origin-bottom-left divide-y divide-slate-700/50 rounded-2xl bg-slate-900/90 shadow-2xl ring-1 ring-slate-700 backdrop-blur-xl focus:outline-none border border-slate-700/50",
+                            "absolute z-50 mb-2 w-56 origin-bottom-left divide-y divide-slate-700/50 rounded-2xl bg-white/5/90 shadow-2xl ring-1 ring-slate-700 backdrop-blur-xl focus:outline-none border border-slate-700/50",
                             collapsed ? "left-12 bottom-0 ml-2" : "bottom-full left-0 mb-3 w-full"
                         )}
                     >
@@ -69,7 +69,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                                             className={clsx(
                                                 active ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/50',
                                                 'group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-all duration-200',
-                                                i18n.language === lang.code && !active ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'border border-transparent'
+                                                i18n.language === lang.code && !active ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'border border-transparent'
                                             )}
                                         >
                                             <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                                             </div>
                                             {i18n.language === lang.code && (
                                                 <motion.div layoutId="activeCheck">
-                                                    <Check className="w-4 h-4 text-emerald-400" />
+                                                    <Check className="w-4 h-4 text-blue-400" />
                                                 </motion.div>
                                             )}
                                         </button>

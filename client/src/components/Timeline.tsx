@@ -33,18 +33,18 @@ export default function Timeline({ stages }: TimelineProps) {
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: index * 0.1 }}
-                                className={`w-8 h-8 rounded-full flex items-center justify-center border-4 ${isCompleted ? 'bg-emerald-500 border-emerald-500' :
-                                    isCurrent ? 'bg-slate-900 border-emerald-400' :
-                                        'bg-slate-900 border-slate-700'
+                                className={`w-8 h-8 rounded-full flex items-center justify-center border-4 ${isCompleted ? 'bg-blue-500 border-blue-500' :
+                                    isCurrent ? 'bg-white/5 border-emerald-400' :
+                                        'bg-white/5 border-slate-700'
                                     } transition-colors duration-300 z-10`}
                             >
                                 {isCompleted && <CheckCircle className="w-4 h-4 text-white" />}
-                                {isCurrent && <Clock className="w-4 h-4 text-emerald-400 animate-pulse" />}
+                                {isCurrent && <Clock className="w-4 h-4 text-blue-400 animate-pulse" />}
                                 {isPending && <Circle className="w-3 h-3 text-slate-700" />}
                             </motion.div>
 
                             <div className="mt-3 text-center md:w-32">
-                                <p className={`text-xs font-bold ${isCurrent ? 'text-emerald-400' :
+                                <p className={`text-xs font-bold ${isCurrent ? 'text-blue-400' :
                                     isCompleted ? 'text-emerald-500/80' : 'text-slate-500'
                                     }`}>
                                     {t(`ticket_config.stages.${stage.id}.label`, stage.label)}

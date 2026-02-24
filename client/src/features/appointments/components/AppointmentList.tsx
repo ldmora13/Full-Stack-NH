@@ -35,13 +35,13 @@ export const AppointmentList = ({ ticketId }: AppointmentListProps) => {
     return (
         <div className="space-y-4">
             <div className="flex items-center gap-2 mb-2">
-                <Calendar className="w-5 h-5 text-emerald-400" />
+                <Calendar className="w-5 h-5 text-blue-400" />
                 <h3 className="text-lg font-bold text-white">Citas Agendadas</h3>
             </div>
 
             <div className="grid gap-4">
                 {appointments.map((apt) => (
-                    <div key={apt.id} className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+                    <div key={apt.id} className="bg-white/5/40 border border-white/10 rounded-xl p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400">
                                 <Video className="w-6 h-6" />

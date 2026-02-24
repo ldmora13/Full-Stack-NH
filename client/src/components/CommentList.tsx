@@ -9,7 +9,7 @@ interface CommentListProps {
 
 const roleConfig = {
     CLIENT: { icon: UserCircle, color: 'text-blue-400' },
-    ADVISOR: { icon: Users, color: 'text-emerald-400' },
+    ADVISOR: { icon: Users, color: 'text-blue-400' },
     ADMIN: { icon: Shield, color: 'text-purple-400' },
 };
 
@@ -37,7 +37,7 @@ export default function CommentList({ comments }: CommentListProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            className="bg-slate-900/40 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-4 hover:bg-slate-900/60 transition-all"
+                            className="bg-white/5/40 backdrop-blur-sm border border-white/10/50 rounded-2xl p-4 hover:bg-white/5/60 transition-all"
                         >
                             <div className="flex items-start gap-3">
                                 <div className="flex-shrink-0">

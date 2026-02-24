@@ -7,6 +7,7 @@ import { AppError } from '../utils/AppError';
 import { PROGRAM_PRICING, ProgramId } from '../config/pricing';
 import { hash } from '@node-rs/argon2';
 import { TicketType, Priority } from '@prisma/client';
+import { EmailService } from '../services/emailService';
 
 export const initCheckout = catchAsync(async (req: Request, res: Response) => {
     const { programId, amount, adults, children } = req.body;
@@ -135,7 +136,20 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         }
     });
 
-    // 5. Response
+    // 5. Send credentials email (only for new users)
+    if (isNewUser && tempPassword) {
+        await EmailService.sendCheckoutCredentials(
+            { email: user.email, name: user.name },
+            {
+                tempPassword,
+                ticketId: ticket.id,
+                programLabel: clientDetails.programLabel,
+                portalUrl: process.env.CLIENT_URL || 'https://app.newhorizonsimmigrationlaw.org/login',
+            }
+        );
+    }
+
+    // 6. Response
     res.json({
         status: 'SUCCESS',
         isNewUser,

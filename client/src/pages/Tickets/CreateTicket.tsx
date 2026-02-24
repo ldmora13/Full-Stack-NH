@@ -79,17 +79,17 @@ export default function CreateTicket() {
             >
                 <button
                     onClick={() => navigate(-1)}
-                    className="group flex items-center gap-2 text-slate-400 hover:text-emerald-400 mb-8 transition-colors"
+                    className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 mb-8 transition-colors"
                 >
-                    <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-emerald-500/10 transition-colors">
+                    <div className="p-2 rounded-full bg-slate-800/50 group-hover:bg-blue-500/10 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                     </div>
                     <span className="font-medium">{t('ticket.create.back')}</span>
                 </button>
 
-                <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl shadow-black/50">
-                    <div className="mb-8 border-b border-slate-800 pb-6">
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-500">
+                <div className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-black/50">
+                    <div className="mb-8 border-b border-white/10 pb-6">
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
                             {t('ticket.create.title')}
                         </h1>
                         <p className="text-slate-400 mt-2">
@@ -106,7 +106,7 @@ export default function CreateTicket() {
                                 value={formData.title}
                                 onChange={handleChange}
                                 required
-                                className="bg-slate-950/50 border-slate-800 focus:border-emerald-500/50"
+                                className="bg-black/30/50 border-white/10 focus:border-blue-500/50"
                             />
 
                             <div>
@@ -124,20 +124,20 @@ export default function CreateTicket() {
                                                 className={`
                                                     cursor-pointer p-4 rounded-xl border transition-all duration-200 group
                                                     ${isSelected
-                                                        ? 'bg-emerald-500/10 border-emerald-500/50 shadow-lg shadow-emerald-500/10'
-                                                        : 'bg-slate-900/50 border-slate-800 hover:border-emerald-500/30 hover:bg-slate-800/50'
+                                                        ? 'bg-blue-500/10 border-blue-500/50 shadow-lg shadow-emerald-500/10'
+                                                        : 'bg-white/5/50 border-white/10 hover:border-blue-500/30 hover:bg-slate-800/50'
                                                     }
                                                 `}
                                             >
                                                 <div className="flex items-start gap-4">
                                                     <div className={`
                                                         p-2.5 rounded-lg transition-colors
-                                                        ${isSelected ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10'}
+                                                        ${isSelected ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-800 text-slate-400 group-hover:text-blue-400 group-hover:bg-blue-500/10'}
                                                     `}>
                                                         <Icon className="w-6 h-6" />
                                                     </div>
                                                     <div>
-                                                        <h3 className={`font-medium mb-1 ${isSelected ? 'text-emerald-400' : 'text-slate-200 group-hover:text-white'}`}>
+                                                        <h3 className={`font-medium mb-1 ${isSelected ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}`}>
                                                             {t(`ticket_config.types.${key}.label`, config.label)}
                                                         </h3>
                                                         <p className="text-sm text-slate-500 leading-relaxed">
@@ -161,7 +161,7 @@ export default function CreateTicket() {
                                             name="priority"
                                             value={formData.priority}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 text-white transition-all appearance-none cursor-pointer"
+                                            className="w-full px-4 py-3 bg-black/30/50 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 text-white transition-all appearance-none cursor-pointer"
                                         >
                                             <option value="LOW">🟢 {t('ticket_priority.LOW')}</option>
                                             <option value="MEDIUM">🔵 {t('ticket_priority.MEDIUM')}</option>
@@ -188,7 +188,7 @@ export default function CreateTicket() {
                                     onChange={handleChange}
                                     required
                                     rows={6}
-                                    className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 text-white placeholder-slate-600 transition-all resize-none leading-relaxed"
+                                    className="w-full px-4 py-3 bg-black/30/50 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 text-white placeholder-slate-600 transition-all resize-none leading-relaxed"
                                     placeholder={t('ticket.placeholders.description')}
                                 />
                             </div>
@@ -200,7 +200,7 @@ export default function CreateTicket() {
                                 </label>
                                 <div
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="border-2 border-dashed border-slate-700 hover:border-emerald-500/50 hover:bg-emerald-500/5 rounded-xl p-8 transition-all cursor-pointer text-center group"
+                                    className="border-2 border-dashed border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/5 rounded-xl p-8 transition-all cursor-pointer text-center group"
                                 >
                                     <input
                                         type="file"
@@ -210,7 +210,7 @@ export default function CreateTicket() {
                                         onChange={handleFileChange}
                                     />
                                     <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                        <UploadCloud className="w-6 h-6 text-emerald-400" />
+                                        <UploadCloud className="w-6 h-6 text-blue-400" />
                                     </div>
                                     <p className="text-slate-300 font-medium">{t('ticket.upload.click_to_upload')}</p>
                                     <p className="text-slate-500 text-sm mt-1">{t('ticket.upload.drag_and_drop')}</p>
@@ -235,7 +235,7 @@ export default function CreateTicket() {
                                                 >
                                                     <div className="flex items-center gap-3">
                                                         <div className="p-2 bg-slate-700 rounded-lg">
-                                                            <Paperclip className="w-4 h-4 text-emerald-400" />
+                                                            <Paperclip className="w-4 h-4 text-blue-400" />
                                                         </div>
                                                         <div>
                                                             <p className="text-sm font-medium text-slate-200">{file.name}</p>
@@ -257,7 +257,7 @@ export default function CreateTicket() {
                             </div>
                         </div>
 
-                        <div className="flex justify-end gap-3 pt-6 border-t border-slate-800">
+                        <div className="flex justify-end gap-3 pt-6 border-t border-white/10">
                             <Button
                                 type="button"
                                 variant="outline"

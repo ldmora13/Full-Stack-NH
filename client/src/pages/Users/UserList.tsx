@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 const roleConfig = {
     CLIENT: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: UserCircle },
-    ADVISOR: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', icon: UsersIcon },
+    ADVISOR: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: UsersIcon },
     ADMIN: { color: 'text-purple-400', bg: 'bg-purple-500/10', icon: Shield },
 };
 
@@ -69,7 +69,7 @@ export default function UserList() {
         <Layout>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-500">
+                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
                         {t('nav.users')}
                     </h1>
                     <p className="text-slate-400 mt-1 text-lg">{t('users.subtitle')}</p>
@@ -93,7 +93,7 @@ export default function UserList() {
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-slate-950/30 border-b border-slate-800/50">
+                            <thead className="bg-black/30/30 border-b border-white/10/50">
                                 <tr>
                                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300">{t('common.user')}</th>
                                     <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300">{t('auth.fields.email')}</th>
@@ -110,7 +110,7 @@ export default function UserList() {
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                                        <span className="text-emerald-400 font-bold text-sm">
+                                                        <span className="text-blue-400 font-bold text-sm">
                                                             {user.name.charAt(0).toUpperCase()}
                                                         </span>
                                                     </div>
@@ -133,7 +133,7 @@ export default function UserList() {
                                                     onClick={() => handleLoginAs(user.id)}
                                                     isLoading={switchingUser === user.id}
                                                     disabled={switchingUser !== null || user.id === currentUser.id}
-                                                    className="text-xs py-1.5 h-auto border-slate-700 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-colors"
+                                                    className="text-xs py-1.5 h-auto border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/10 hover:text-blue-400 transition-colors"
                                                 >
                                                     <LogIn className="w-3.5 h-3.5" />
                                                     {user.id === currentUser.id ? t('users.current') : t('users.login_as')}

@@ -53,7 +53,7 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl"
+                    className="bg-white/5 border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="flex items-center justify-between mb-6">
@@ -104,7 +104,7 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
                                 name="role"
                                 value={formData.role}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 text-white transition-all"
+                                className="w-full px-4 py-3 bg-black/30/50 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 text-white transition-all"
                             >
                                 <option value="CLIENT">{t('roles.CLIENT')}</option>
                                 <option value="ADVISOR">{t('roles.ADVISOR')}</option>

@@ -37,7 +37,7 @@ export default function CommentForm({ ticketId, onCommentCreated }: CommentFormP
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder={t('comments.placeholder')}
-                className="flex-1 px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 text-white transition-all placeholder:text-slate-500"
+                className="flex-1 px-4 py-3 bg-black/30/50 border border-white/10 rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 text-white transition-all placeholder:text-slate-500"
             />
             <Button type="submit" isLoading={loading} disabled={!content.trim()}>
                 <Send className="w-4 h-4" />

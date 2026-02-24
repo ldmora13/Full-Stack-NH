@@ -43,7 +43,7 @@ export default function TicketDetail() {
     const { t } = useTranslation();
 
     const statusConfig = {
-        OPEN: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', icon: AlertCircle, label: t('ticket_status.OPEN') },
+        OPEN: { color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', icon: AlertCircle, label: t('ticket_status.OPEN') },
         IN_PROGRESS: { color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', icon: Clock, label: t('ticket_status.IN_PROGRESS') },
         RESOLVED: { color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20', icon: CheckCircle, label: t('ticket_status.RESOLVED') },
         CLOSED: { color: 'text-slate-400', bg: 'bg-slate-500/10', border: 'border-slate-500/20', icon: FileText, label: t('ticket_status.CLOSED') },
@@ -86,7 +86,7 @@ export default function TicketDetail() {
         return (
             <Layout>
                 <div className="flex items-center justify-center min-h-[60vh]">
-                    <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>
             </Layout>
         );
@@ -128,7 +128,7 @@ export default function TicketDetail() {
                         >
                             <ArrowLeft className="w-4 h-4 text-slate-400" />
                         </Button>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-500">
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
                             {t('ticket.detail.case_number')} {ticket.id}
                         </h1>
                         <div className={`px-3 py-1 rounded-full text-xs font-bold border ${statusConfig[ticket.status as keyof typeof statusConfig]?.bg} ${statusConfig[ticket.status as keyof typeof statusConfig]?.color} ${statusConfig[ticket.status as keyof typeof statusConfig]?.border}`}>
@@ -148,8 +148,8 @@ export default function TicketDetail() {
 
                 {/* Stage Actions Section */}
                 {currentStageId === 'HR_INTERVIEW' && paymentStatus === 'PENDING' && (
-                    <div className="mb-8 p-8 bg-slate-900/60 border border-emerald-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-32 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="mb-8 p-8 bg-white/5/60 border border-blue-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-32 bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                         <h2 className="text-2xl font-bold text-white mb-2 relative z-10">Pago de Procesamiento</h2>
                         <p className="text-slate-400 mb-6 relative z-10">Para continuar con la entrevista de RRHH y la aprobación del patrocinio, es necesario cubrir el 35% del valor del trámite.</p>
                         <PayPalPayment
@@ -172,7 +172,7 @@ export default function TicketDetail() {
                 )}
 
                 {currentStageId === 'MEDICAL_EXAMS' && appointmentStatus === 'PENDING' && (
-                    <div className="mb-8 p-8 bg-slate-900/60 border border-blue-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
+                    <div className="mb-8 p-8 bg-white/5/60 border border-blue-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-32 bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                         <h2 className="text-2xl font-bold text-white mb-2 relative z-10">Agendamiento de Exámenes</h2>
                         <p className="text-slate-400 mb-6 relative z-10">Selecciona una fecha y hora para tus exámenes médicos o psicológicos.</p>
@@ -192,9 +192,9 @@ export default function TicketDetail() {
                     {/* Main Content Column */}
                     <div className="lg:col-span-2 space-y-8">
                         {/* Description Card */}
-                        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-xl">
+                        <div className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-xl">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
                                     {(() => {
                                         const config = TICKET_CONFIG[ticket.type as TicketType];
                                         const TypeIcon = config?.icon || FileText;
@@ -207,7 +207,7 @@ export default function TicketDetail() {
                                 {ticket.description}
                             </p>
 
-                            <div className="flex items-center gap-6 mt-6 pt-6 border-t border-slate-800/50">
+                            <div className="flex items-center gap-6 mt-6 pt-6 border-t border-white/10/50">
                                 <div className="flex items-center gap-2 text-slate-400">
                                     <Calendar className="w-4 h-4" />
                                     <span className="text-sm">{t('ticket.detail.started')} {new Date(ticket.createdAt).toLocaleDateString()}</span>
@@ -220,9 +220,9 @@ export default function TicketDetail() {
                         </div>
 
                         {/* Comments Section */}
-                        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-xl">
+                        <div className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-xl">
                             <div className="flex items-center gap-3 mb-6">
-                                <MessageSquare className="w-6 h-6 text-emerald-400" />
+                                <MessageSquare className="w-6 h-6 text-blue-400" />
                                 <h2 className="text-2xl font-bold text-white">{t('ticket.detail.comments')}</h2>
                                 <span className="text-sm text-slate-500">({comments.length})</span>
                             </div>
@@ -247,17 +247,17 @@ export default function TicketDetail() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 shadow-xl"
+                            className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-xl"
                         >
                             <div className="flex items-center gap-3 mb-6">
-                                <Paperclip className="w-6 h-6 text-emerald-400" />
+                                <Paperclip className="w-6 h-6 text-blue-400" />
                                 <h2 className="text-2xl font-bold text-white">{t('ticket.detail.attachments')}</h2>
                                 <span className="text-sm text-slate-500">({ticket.attachments?.length || 0})</span>
                             </div>
 
                             {/* Upload Section - Hidden if case is closed */}
                             {ticket.status !== 'CLOSED' && (
-                                <div className="mb-6 pb-6 border-b border-slate-800">
+                                <div className="mb-6 pb-6 border-b border-white/10">
                                     <FileUpload
                                         ticketId={ticket.id}
                                         onUploadComplete={handleFileUploadComplete}

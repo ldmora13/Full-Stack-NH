@@ -34,17 +34,17 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 relative">
+        <div className="min-h-screen flex items-center justify-center px-4 relative">
             <div className="absolute top-4 right-4">
                 <LanguageSelector />
             </div>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="max-w-md w-full space-y-8 bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-xl"
+                className="max-w-md w-full space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-xl"
             >
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-500">
+                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
                         {t('auth.login.welcome')}
                     </h2>
                     <p className="mt-2 text-slate-400">{t('auth.login.subtitle')}</p>
@@ -80,7 +80,7 @@ export default function Login() {
 
                 <p className="text-center text-sm text-slate-500">
                     {t('auth.login.no_account')}{' '}
-                    <Link to="/signup" className="text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
+                    <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
                         {t('auth.login.register_link')}
                     </Link>
                 </p>

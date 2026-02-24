@@ -2,18 +2,29 @@
 
 @layer base {
     body {
-        @apply bg-slate-950 text-slate-100 antialiased;
-        background: radial-gradient(circle at top left, #0f172a 0%, #020617 100%);
+        @apply text-slate-100 antialiased;
+        background-color: #313e52;
+        background-image: radial-gradient(ellipse at top left, #3a4d66 0%, #2a3548 60%, #222d3e 100%);
         min-height: 100vh;
+        font-family: 'Inter', sans-serif;
     }
 }
 
 @layer utilities {
     .glass {
-        @apply bg-slate-900/40 backdrop-blur-xl border border-slate-800/50;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.10);
     }
 
     .glass-hover {
-        @apply hover:bg-slate-800/60 hover:border-slate-700 transition-all duration-300;
+        @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+    }
+
+    .glass-dark {
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
     }
 }

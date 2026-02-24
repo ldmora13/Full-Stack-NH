@@ -76,13 +76,13 @@ export default function AppointmentScheduler({ ticketId, onSchedule }: Appointme
     };
 
     return (
-        <div className="bg-slate-900 rounded-2xl border border-slate-700/50 overflow-hidden shadow-xl max-w-4xl mx-auto">
+        <div className="bg-white/5 rounded-2xl border border-slate-700/50 overflow-hidden shadow-xl max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Calendar Section */}
                 <div className="p-6 border-b md:border-b-0 md:border-r border-slate-700/50">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                            <CalendarIcon className="w-5 h-5 text-emerald-400" />
+                            <CalendarIcon className="w-5 h-5 text-blue-400" />
                             {format(currentMonth, 'MMMM yyyy')}
                         </h2>
                         <div className="flex gap-1">
@@ -119,7 +119,7 @@ export default function AppointmentScheduler({ ticketId, onSchedule }: Appointme
                                         !isCurrentMonth && "text-slate-600 opacity-50",
                                         isPast && "text-slate-700 cursor-not-allowed",
                                         !isPast && isCurrentMonth && !isSelected && "text-slate-300 hover:bg-slate-800 hover:text-white",
-                                        isSelected && "bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-500/20"
+                                        isSelected && "bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20"
                                     )}
                                 >
                                     {format(day, 'd')}
@@ -160,7 +160,7 @@ export default function AppointmentScheduler({ ticketId, onSchedule }: Appointme
                                             className={clsx(
                                                 "p-3 rounded-xl border text-sm font-medium transition-all flex flex-col items-center gap-2",
                                                 selectedType === type
-                                                    ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
+                                                    ? "bg-blue-500/10 border-blue-500 text-blue-400"
                                                     : "bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500"
                                             )}
                                         >
@@ -204,7 +204,7 @@ export default function AppointmentScheduler({ ticketId, onSchedule }: Appointme
                                 "w-full py-4 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-2",
                                 (!selectedDate || !selectedTime || !selectedType || isSubmitting)
                                     ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                                    : "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-400 hover:to-teal-400 shadow-emerald-500/20"
+                                    : "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-400 hover:to-teal-400 shadow-blue-500/20"
                             )}
                         >
                             {isSubmitting ? (

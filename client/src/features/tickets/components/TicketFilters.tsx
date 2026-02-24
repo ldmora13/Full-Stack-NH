@@ -72,15 +72,15 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
     const hasActiveFilters = Object.keys(filters).length > 0;
 
     return (
-        <div className="bg-slate-900/50 rounded-2xl border border-slate-800 p-6 mb-6">
+        <div className="bg-white/5/50 rounded-2xl border border-white/10 p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Search className="w-5 h-5 text-emerald-400" />
+                    <Search className="w-5 h-5 text-blue-400" />
                     {t('filters.title')}
                 </h3>
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                    className="text-sm text-blue-400 hover:text-emerald-300 transition-colors"
                 >
                     {isOpen ? t('filters.hide') : t('filters.show')}
                 </button>
@@ -95,7 +95,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                             placeholder={t('filters.search.placeholder')}
                             value={filters.search || ''}
                             onChange={(e) => handleFilterChange('search', e.target.value)}
-                            className="bg-slate-950 border-slate-800"
+                            className="bg-black/30 border-white/10"
                         />
                     </div>
 
@@ -108,7 +108,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                             <select
                                 value={filters.status || ''}
                                 onChange={(e) => handleFilterChange('status', e.target.value)}
-                                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                className="w-full px-4 py-2 bg-black/30 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
                             >
                                 <option value="">{t('filters.all')}</option>
                                 <option value="OPEN">{t('ticket_status.OPEN')}</option>
@@ -126,7 +126,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                             <select
                                 value={filters.priority || ''}
                                 onChange={(e) => handleFilterChange('priority', e.target.value)}
-                                className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                className="w-full px-4 py-2 bg-black/30 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
                             >
                                 <option value="">{t('filters.all')}</option>
                                 <option value="LOW">{t('ticket_priority.LOW')}</option>
@@ -145,7 +145,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                                 <select
                                     value={filters.advisorId || ''}
                                     onChange={(e) => handleFilterChange('advisorId', e.target.value)}
-                                    className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                    className="w-full px-4 py-2 bg-black/30 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
                                 >
                                     <option value="">{t('filters.all')}</option>
                                     {advisors.map((advisor) => (
@@ -166,7 +166,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                                 <select
                                     value={filters.clientId || ''}
                                     onChange={(e) => handleFilterChange('clientId', e.target.value)}
-                                    className="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                                    className="w-full px-4 py-2 bg-black/30 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 transition-colors"
                                 >
                                     <option value="">{t('filters.all')}</option>
                                     {clients.map((client) => (

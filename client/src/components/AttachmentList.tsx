@@ -66,7 +66,7 @@ export default function AttachmentList({ attachments }: AttachmentListProps) {
             {attachments.map((attachment) => (
                 <div
                     key={attachment.id}
-                    className="bg-slate-900/50 rounded-xl border border-slate-800 p-4 hover:border-slate-700 transition-colors"
+                    className="bg-white/5/50 rounded-xl border border-white/10 p-4 hover:border-slate-700 transition-colors"
                 >
                     <div className="flex items-start gap-4">
                         {/* Icon/Preview */}
