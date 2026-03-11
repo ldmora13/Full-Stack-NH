@@ -11,7 +11,7 @@ export const EmailService = {
     sendEmail: async ({ to, subject, html }: EmailOptions) => {
         try {
             const { data, error } = await resend.emails.send({
-                from: 'New Horizons <noreply@tudominio.com>',
+                from: 'onboarding@resend.dev',
                 to,
                 subject,
                 html,
