@@ -1,0 +1,31 @@
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Vite replaces env vars at BUILD time, so we need them as build args
+ARG VITE_API_URL=https://api.newhorizonsimmigrationlaw.org
+ENV VITE_API_URL=$VITE_API_URL
+
+COPY client/package*.json ./
+RUN npm ci
+
+COPY client/ .
+RUN npm run build
+
+FROM nginx:alpine AS runner
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# React Router SPA config
+RUN printf 'server {\n\
+  listen 5173;\n\
+  root /usr/share/nginx/html;\n\
+  index index.html;\n\
+  location / {\n\
+    try_files $uri $uri/ /index.html;\n\
+  }\n\
+  gzip on;\n\
+  gzip_types text/css application/javascript image/svg+xml;\n\
+}' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 5173
+CMD ["nginx", "-g", "daemon off;"]
