@@ -11,7 +11,7 @@ export const EmailService = {
     sendEmail: async ({ to, subject, html }: EmailOptions) => {
         try {
             const { data, error } = await resend.emails.send({
-                from: 'onboarding@resend.dev',
+                from: 'notifications@newhorizonsimmigrationlaw.org',
                 to,
                 subject,
                 html,
