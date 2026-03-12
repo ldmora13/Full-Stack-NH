@@ -17,7 +17,7 @@ export const createOrder = catchAsync(async (req: Request, res: Response) => {
                 currency_code: 'USD',
                 value: amount
             },
-            custom_id: ticketId.toString() // Link order to ticket
+            custom_id: ticketId.toString()
         }]
     });
 
@@ -33,13 +33,13 @@ export const captureOrder = catchAsync(async (req: Request, res: Response) => {
     const user = res.locals.user;
 
     const request = new paypal.orders.OrdersCaptureRequest(orderID);
+    // @ts-ignore - PayPal SDK requires empty body for capture
     request.requestBody({});
 
     try {
         const capture = await client.execute(request);
 
-        // Save payment to database
-        // @ts-ignore - PayPal types are tricky
+        // @ts-ignore - PayPal types are incomplete
         const captureData = capture.result.purchase_units[0].payments.captures[0];
 
         const payment = await db.payment.create({
@@ -52,9 +52,6 @@ export const captureOrder = catchAsync(async (req: Request, res: Response) => {
                 ticketId: Number(ticketId)
             }
         });
-
-        // Send confirmation email ? (Maybe later)
-        // Update ticket if needed (e.g. move to next stage)
 
         res.json({ status: 'COMPLETED', payment });
     } catch (error) {

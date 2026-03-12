@@ -11,7 +11,7 @@ const createTicket = z.object({
         priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).optional().openapi({ example: 'MEDIUM' }),
         type: z.enum(['WORK_VISA', 'STUDENT_VISA', 'RESIDENCY', 'CITIZENSHIP', 'OTHER']).optional().openapi({ example: 'WORK_VISA' }),
         clientId: z.string().optional().openapi({ example: 'cm6...' }),
-        metadata: z.record(z.any()).optional().openapi({ example: { checklist: [] } }),
+        metadata: z.record(z.string(), z.any()).optional().openapi({ example: { checklist: [] } }),
     }),
 });
 
@@ -22,7 +22,7 @@ const updateTicket = z.object({
         status: z.enum(['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED']).optional().openapi({ example: 'IN_PROGRESS' }),
         priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).optional().openapi({ example: 'HIGH' }),
         advisorId: z.string().optional().openapi({ example: 'cm6...' }),
-        metadata: z.record(z.any()).optional(),
+        metadata: z.record(z.string(), z.any()).optional(),
     }),
     params: z.object({
         id: z.string().openapi({ example: '123' }),
