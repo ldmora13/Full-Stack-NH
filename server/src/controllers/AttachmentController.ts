@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import { db } from '../lib/db';
 import { catchAsync } from '../utils/catchAsync';
 import { AuditLogService } from '../services/AuditLogService';
+import { r2Client, R2_CONFIG } from '../config/r2';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { AttachmentService } from '../services/AttachmentService';
+import path from 'path';
 
 export const uploadAttachment = catchAsync(async (req: Request, res: Response) => {
     const { ticketId } = req.params;
@@ -13,10 +17,25 @@ export const uploadAttachment = catchAsync(async (req: Request, res: Response) =
         return;
     }
 
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const key = `tickets/${ticketId}/${uniqueSuffix}-${file.originalname}`;
+
+    await r2Client.send(new PutObjectCommand({
+        Bucket: R2_CONFIG.bucket,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+    }));
+
+    // For R2, the direct URL might not be public.
+    // We'll store the key as the URL or a base URL.
+    // For now, let's store the key prefixing it with 'r2://' to distinguish it from local files.
+    const url = `r2://${key}`;
+
     const attachment = await db.attachment.create({
         data: {
             filename: file.originalname,
-            url: `/uploads/${file.filename}`, // In a real app, upload to S3/Cloudinary
+            url: url,
             size: file.size,
             fileType: file.mimetype,
             ticketId: Number(ticketId),
@@ -61,5 +80,8 @@ export const getAttachments = catchAsync(async (req: Request, res: Response) => 
         orderBy: { createdAt: 'desc' }
     });
 
-    res.json({ attachments });
+    // Generate signed URLs for R2 attachments
+    const attachmentsWithUrls = await AttachmentService.signAttachments(attachments);
+
+    res.json({ attachments: attachmentsWithUrls });
 });

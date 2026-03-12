@@ -3,6 +3,7 @@ import { TicketRepository } from '../repositories/TicketRepository';
 import { AppError } from '../utils/AppError';
 import { EmailService } from './emailService';
 import { WORKFLOW_CONFIG } from '../config/workflow';
+import { AttachmentService } from './AttachmentService';
 
 export class TicketService {
     private ticketRepository: TicketRepository;
@@ -21,12 +22,6 @@ export class TicketService {
         creatorRole: string;
     }): Promise<Ticket> {
         if (data.creatorRole === 'CLIENT') {
-            // Clients can create tickets, logic in controller was preventing it but requirement might have changed or it was a bug.
-            // Re-reading controller: "if (user.role === 'CLIENT') return res.status(403)..."
-            // Wait, the original controller said clients CANNOT create tickets? 
-            // "if (user.role === 'CLIENT') { return res.status(403).json({ error: 'Clients cannot create tickets' }); }"
-            // This seems odd for a ticket system, usually clients create tickets. 
-            // However, I must respect existing logic.
             throw new AppError('Clients cannot create tickets', 403);
         }
 
@@ -102,6 +97,11 @@ export class TicketService {
         // Authorization check
         if (userRole === 'CLIENT' && ticket.clientId !== userId) {
             throw new AppError('Forbidden', 403);
+        }
+
+        // Sign attachment URLs if they exist
+        if ((ticket as any).attachments) {
+            (ticket as any).attachments = await AttachmentService.signAttachments((ticket as any).attachments);
         }
 
         return ticket;
