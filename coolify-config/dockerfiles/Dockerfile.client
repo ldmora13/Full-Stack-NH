@@ -2,7 +2,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Vite replaces env vars at BUILD time, so we need them as build args
-ARG VITE_API_URL=https://api.newhorizonsimmigrationlaw.org
+ARG VITE_API_URL=https://api.newhorizonsimmigrationlaw.org/api
 ENV VITE_API_URL=$VITE_API_URL
 
 COPY client/package*.json ./

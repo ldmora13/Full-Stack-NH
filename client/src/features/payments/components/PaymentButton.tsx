@@ -1,12 +1,13 @@
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { useState } from "react";
-import { toast } from "react-hot-toast"; // Assuming react-hot-toast is used, or replace with console/alert
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 // Helper to create order on backend
+const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000/api';
+
 const createOrder = async (ticketId: number, amount: string) => {
-    const response = await axios.post('http://localhost:3000/api/payments/create-order', {
+    const response = await axios.post(`${API_URL}/payments/create-order`, {
         ticketId,
         amount
     }, { withCredentials: true });
@@ -15,7 +16,7 @@ const createOrder = async (ticketId: number, amount: string) => {
 
 // Helper to capture order on backend
 const onApprove = async (data: any, ticketId: number) => {
-    const response = await axios.post('http://localhost:3000/api/payments/capture-order', {
+    const response = await axios.post(`${API_URL}/payments/capture-order`, {
         orderID: data.orderID,
         ticketId
     }, { withCredentials: true });

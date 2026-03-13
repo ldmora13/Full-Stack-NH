@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
 
+
 interface PayPalButtonProps {
     amount: string;
     ticketId: number;
@@ -15,6 +16,7 @@ interface PayPalButtonProps {
 
 // TODO: Replace with env variable
 const PAYPAL_CLIENT_ID = "sb"; // Sandbox
+const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000/api'
 
 export default function PayPalPayment({ amount, ticketId, onSuccess, onError, currency = "USD" }: PayPalButtonProps) {
     const [status, setStatus] = useState<'IDLE' | 'SUCCESS' | 'ERROR'>('IDLE');
@@ -22,7 +24,7 @@ export default function PayPalPayment({ amount, ticketId, onSuccess, onError, cu
 
     const handleApprove = async (data: any, actions: any) => {
         try {
-            const response = await axios.post('http://localhost:3000/api/payments/capture-order', {
+            const response = await axios.post(`${API_URL}/payments/capture-order`, {
                 orderID: data.orderID,
                 ticketId
             }, { withCredentials: true });
@@ -36,7 +38,7 @@ export default function PayPalPayment({ amount, ticketId, onSuccess, onError, cu
     };
 
     const createOrder = async (data: any, actions: any) => {
-        const response = await axios.post('http://localhost:3000/api/payments/create-order', {
+        const response = await axios.post(`${API_URL}/payments/create-order`, {
             ticketId,
             amount
         }, { withCredentials: true });

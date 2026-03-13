@@ -21,7 +21,7 @@ import { apiLimiter, authLimiter } from './middlewares/rateLimit';
 import publicRoutes from './routes/publicRoutes';
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:4321', 'https://newhorizonsimmigrationlaw.org'],
+    origin: ['http://localhost:5173', 'http://localhost:4321', 'https://newhorizonsimmigrationlaw.org', 'https://app.newhorizonsimmigrationlaw.org'],
     credentials: true
 }));
 app.use(express.json());
