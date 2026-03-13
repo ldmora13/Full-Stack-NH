@@ -12,10 +12,13 @@ FROM nginx:alpine AS runner
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Config for Astro static site behind Traefik reverse proxy
 RUN printf 'server {\n\
   listen 4321;\n\
   root /usr/share/nginx/html;\n\
   index index.html;\n\
+  port_in_redirect off;\n\
+  absolute_redirect off;\n\
   location / {\n\
     try_files $uri $uri/ $uri.html =404;\n\
   }\n\

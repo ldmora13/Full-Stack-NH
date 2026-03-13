@@ -9,18 +9,20 @@ COPY client/package*.json ./
 RUN npm ci
 
 COPY client/ .
-# Skip tsc type checking (strict unused vars errors) — vite transpiles without type errors
+# Skip tsc type checking — vite transpiles without type errors
 RUN npx vite build
 
 FROM nginx:alpine AS runner
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# React Router SPA config
+# React Router SPA config behind Traefik reverse proxy
 RUN printf 'server {\n\
   listen 5173;\n\
   root /usr/share/nginx/html;\n\
   index index.html;\n\
+  port_in_redirect off;\n\
+  absolute_redirect off;\n\
   location / {\n\
     try_files $uri $uri/ /index.html;\n\
   }\n\
