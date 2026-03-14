@@ -15,8 +15,8 @@ interface PayPalButtonProps {
 }
 
 // TODO: Replace with env variable
-const PAYPAL_CLIENT_ID = "sb"; // Sandbox
-const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000/api'
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+const API_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000/api';
 
 export default function PayPalPayment({ amount, ticketId, onSuccess, onError, currency = "USD" }: PayPalButtonProps) {
     const [status, setStatus] = useState<'IDLE' | 'SUCCESS' | 'ERROR'>('IDLE');
@@ -91,7 +91,7 @@ export default function PayPalPayment({ amount, ticketId, onSuccess, onError, cu
 
             {status === 'ERROR' && (
                 <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3 text-red-400">
-                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    <AlertCircle className="w-5 h-5 shrink-0" />
                     <p className="text-sm">{t('payments.error')}</p>
                 </div>
             )}
