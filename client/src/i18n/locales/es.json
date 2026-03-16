@@ -273,7 +273,7 @@
     "comments": {
         "placeholder": "Escribe un comentario...",
         "send": "Enviar",
-        "no_comments": "No hay comentarios aún. ¡Sé el primero en comentar!"
+        "no_comments": "No hay comentarios aún."
     },
     "attachments": {
         "no_attachments": "No hay archivos adjuntos",

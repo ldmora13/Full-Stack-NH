@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
+    Scale,
     LayoutDashboard,
     Ticket,
     LogOut,
@@ -47,7 +48,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     {/* Logo/Title with transition */}
                     <div className={clsx("flex items-center gap-3 transition-opacity duration-300", !isSidebarOpen ? "w-0 opacity-0 lg:w-auto lg:opacity-100 lg:absolute lg:left-1/2 lg:-translate-x-1/2" : "opacity-100")}>
                         <div className="w-8 h-8 rounded-xl bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                            <span className="font-bold from-blue-400 to-blue-600">NH</span>
+                            <Scale className="w-4 h-4 text-white" />
                         </div>
                         {isSidebarOpen && (
                             <h1 className="font-bold text-white text-lg overflow-hidden whitespace-nowrap tracking-tight">

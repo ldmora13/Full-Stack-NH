@@ -40,7 +40,7 @@ export default function CommentList({ comments }: CommentListProps) {
                             className="bg-white/5/40 backdrop-blur-sm border border-white/10/50 rounded-2xl p-4 hover:bg-white/5/60 transition-all"
                         >
                             <div className="flex items-start gap-3">
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center">
                                         <RoleIcon className={`w-5 h-5 ${roleColor}`} />
                                     </div>
