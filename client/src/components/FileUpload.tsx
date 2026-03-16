@@ -95,7 +95,7 @@ export default function FileUpload({ ticketId, onUploadComplete, disabled }: Fil
                                 exit={{ opacity: 0, x: 20 }}
                                 className="flex items-center gap-3 p-3 bg-white/5/40 border border-white/10 rounded-xl"
                             >
-                                <FileIcon className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                                <FileIcon className="w-4 h-4 text-blue-400 shrink-0" />
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm text-white truncate">{file.name}</p>
                                     <p className="text-xs text-slate-500">

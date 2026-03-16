@@ -39,7 +39,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                             <span className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">{currentLang.label}</span>
                             <span className="text-[10px] text-slate-500 uppercase tracking-wider">Idioma</span>
                         </div>
-                        <ChevronUp className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" />
+                        <ChevronUp className="w-4 h-4 text-slate-600 group-hover:text-slate-400 ml-5 transition-colors" />
                     </div>
                 )}
             </Menu.Button>
@@ -57,7 +57,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                     <Menu.Items
                         className={clsx(
                             "absolute z-50 mb-2 w-56 origin-bottom-left divide-y divide-slate-700/50 rounded-2xl bg-white/5/90 shadow-2xl ring-1 ring-slate-700 backdrop-blur-xl focus:outline-none border border-slate-700/50",
-                            collapsed ? "left-12 bottom-0 ml-2" : "bottom-full left-0 mb-3 w-full"
+                            collapsed ? "left-12 -bottom-4 ml-5" : "bottom-full left-0 mb-5 w-full"
                         )}
                     >
                         <div className="p-1.5 space-y-0.5">

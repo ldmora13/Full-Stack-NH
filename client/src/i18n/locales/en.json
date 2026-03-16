@@ -280,5 +280,11 @@
         "unknown_size": "Unknown",
         "uploaded_by": "Uploaded by {{name}}",
         "download": "Download file"
+    },
+    "upload": {
+        "select_files": "Select Files",
+        "file": "File",
+        "files": "Files",
+        "upload_btn": "Upload"
     }
 }

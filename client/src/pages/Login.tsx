@@ -35,7 +35,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 relative">
-            <div className="absolute top-4 right-4">
+            <div className="absolute bottom-4 left-4">
                 <LanguageSelector />
             </div>
             <motion.div
@@ -44,7 +44,7 @@ export default function Login() {
                 className="max-w-md w-full space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-xl"
             >
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
+                    <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
                         {t('auth.login.welcome')}
                     </h2>
                     <p className="mt-2 text-slate-400">{t('auth.login.subtitle')}</p>

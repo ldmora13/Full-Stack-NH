@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                             {location.pathname.startsWith(item.path) && (
                                 <div className="absolute inset-0 bg-blue-500/10 rounded-xl border border-blue-500/20" />
                             )}
-                            <item.icon className={clsx("w-5 h-5 min-w-[1.25rem] relative z-10 transition-colors", location.pathname.startsWith(item.path) ? "text-blue-400" : "text-slate-500 group-hover:text-slate-300")} />
+                            <item.icon className={clsx("w-5 h-5 min-w-5 relative z-10 transition-colors", location.pathname.startsWith(item.path) ? "text-blue-400" : "text-slate-500 group-hover:text-slate-300")} />
                             <span className={clsx("relative z-10 transition-all duration-300", !isSidebarOpen && "lg:opacity-0 lg:w-0")}>
                                 {item.label}
                             </span>
@@ -96,16 +96,18 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </nav>
 
                 <div className="p-4 border-t border-white/10/50 space-y-2">
-                    <div className={clsx("flex items-center transition-all duration-300", isSidebarOpen ? "justify-start px-5 " : "justify-center")}>
+                    <div className={clsx("flex items-center transition-all duration-300", isSidebarOpen ? "justify-start px-5" : "justify-center")}>
                         <LanguageSelector collapsed={!isSidebarOpen} />
                     </div>
 
                     <button
                         onClick={() => logout()}
-                        className="flex items-center gap-3 w-full px-4 py-3 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all overflow-hidden whitespace-nowrap group"
+                        className={clsx("flex items-center gap-4 w-full px-4 py-3 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all overflow-hidden whitespace-nowrap group"
+                            , isSidebarOpen && "ml-3"
+                        )}
                         title={!isSidebarOpen ? t('nav.logout') : undefined}
                     >
-                        <LogOut className="w-5 h-5 min-w-[1.25rem] group-hover:translate-x-1 transition-transform" />
+                        <LogOut className="w-5 h-5 min-w-5 group-hover:translate-x-1 transition-transform" />
                         <span className={clsx("transition-all duration-300", !isSidebarOpen && "lg:opacity-0 lg:w-0")}>
                             {t('nav.logout')}
                         </span>

@@ -18,15 +18,15 @@ export interface Appointment {
 
 export const AppointmentService = {
     getAppointments: async (ticketId?: number): Promise<Appointment[]> => {
-        const response = await axios.get(API_URL, {
-            params: { ticketId },
+        const response = await axios.get(`${API_URL}/appointments`, {
+            params: ticketId ? { ticketId } : {},
             withCredentials: true
         });
-        return response.data.appointments;
+        return response.data.appointments ?? [];
     },
 
     createAppointment: async (data: { date: Date; type: string; ticketId: number; link?: string }) => {
-        const response = await axios.post(API_URL, {
+        const response = await axios.post(`${API_URL}/appointments`, {
             ...data,
             date: data.date.toISOString()
         }, { withCredentials: true });
@@ -34,7 +34,7 @@ export const AppointmentService = {
     },
 
     updateStatus: async (id: number, status: string) => {
-        const response = await axios.patch(`${API_URL}/${id}/status`, { status }, { withCredentials: true });
+        const response = await axios.patch(`${API_URL}/appointments/${id}/status`, { status }, { withCredentials: true });
         return response.data.appointment;
     }
 };

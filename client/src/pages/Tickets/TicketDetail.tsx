@@ -212,10 +212,6 @@ export default function TicketDetail() {
                                     <Calendar className="w-4 h-4" />
                                     <span className="text-sm">{t('ticket.detail.started')} {new Date(ticket.createdAt).toLocaleDateString()}</span>
                                 </div>
-                                <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${priorityConfig[ticket.priority as keyof typeof priorityConfig]?.bg} ${priorityConfig[ticket.priority as keyof typeof priorityConfig]?.color}`}>
-                                    <AlertTriangle className="w-3 h-3" />
-                                    <span>{t('ticket.detail.priority')} {priorityConfig[ticket.priority as keyof typeof priorityConfig]?.label}</span>
-                                </div>
                             </div>
                         </div>
 

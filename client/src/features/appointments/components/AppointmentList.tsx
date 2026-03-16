@@ -20,17 +20,18 @@ export const AppointmentList = ({ ticketId }: AppointmentListProps) => {
     const loadAppointments = async () => {
         try {
             const data = await AppointmentService.getAppointments(ticketId);
-            setAppointments(data);
+            setAppointments(data ?? []);
         } catch (error) {
             console.error('Error loading appointments:', error);
+            setAppointments([]);
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) return <div className="text-slate-400 text-sm">Cargando citas...</div>;
+    if (loading) return null;
 
-    if (appointments.length === 0) return null; // Don't show anything if no appointments
+    if (appointments.length === 0) return null;
 
     return (
         <div className="space-y-4">

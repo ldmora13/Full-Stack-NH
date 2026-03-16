@@ -70,7 +70,7 @@ export default function AttachmentList({ attachments }: AttachmentListProps) {
                 >
                     <div className="flex items-start gap-4">
                         {/* Icon/Preview */}
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                             {isImage(attachment.fileType) && attachment.url ? (
                                 <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800">
                                     <img
@@ -108,7 +108,7 @@ export default function AttachmentList({ attachments }: AttachmentListProps) {
                             download={attachment.filename}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-shrink-0 p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                            className="shrink-0 p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
                             title={t('attachments.download')}
                         >
                             <Download className="w-5 h-5" />

@@ -113,10 +113,16 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
             ticketType = TicketType.OTHER;
     }
 
+    const description = `
+        Immigration process for ${clientDetails.programLabel}.
+        Family: ${clientDetails.adults} Adults, ${clientDetails.children} Children.
+        Address: ${clientDetails.address}, ${clientDetails.city}, ${clientDetails.country}.
+        `.trim();
+
     const ticket = await db.ticket.create({
         data: {
             title: `Process: ${clientDetails.programLabel}`,
-            description: `Immigration process for ${clientDetails.programLabel}. Family: ${clientDetails.adults} Adults, ${clientDetails.children} Children. Address: ${clientDetails.address}, ${clientDetails.city}, ${clientDetails.country}.`,
+            description: description,
             status: 'OPEN',
             priority: 'MEDIUM' as Priority,
             type: ticketType,
