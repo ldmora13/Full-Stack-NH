@@ -95,10 +95,10 @@ export default function TicketList() {
         <Layout>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
+                    <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
                         {t('nav.tickets')}
                     </h1>
-                    <p className="text-slate-400 mt-1 text-lg">Gestiona tus procesos para trabajar en el extranjero</p>
+                    <p className="text-slate-400 mt-1 text-md">{t('ticket.description')}</p>
                 </div>
                 <CreateButton />
             </div>

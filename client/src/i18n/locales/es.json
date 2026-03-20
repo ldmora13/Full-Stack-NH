@@ -18,18 +18,28 @@
         "no_data": "No hay expedientes para mostrar"
     },
     "nav": {
-        "dashboard": "Dashboard",
+        "dashboard": "Panel de Control",
         "tickets": "Mis Trámites",
         "users": "Usuarios",
         "logout": "Cerrar Sesión",
-        "new_ticket": "Nuevo Trámite"
+        "new_ticket": "Nuevo Trámite",
+        "profile": "Perfil",
+        "messages": "Mensajes"
     },
     "dashboard": {
         "welcome": "Bienvenido a New Horizons",
-        "new_requests": "Solicitudes Nuevas",
-        "in_progress": "Procesos en Trámite",
-        "resolved": "Finalizados / Aprobados",
-        "recent_activity": "Actividad Reciente"
+        "hello": "Hola",
+        "next_action": "Próximo paso",
+        "check_status": "Consultar estado",
+        "keep_info_updated": "Mantén tu información actualizada para asegurar un proceso sin contratiempos.",
+        "go_to_ticket": "Ir a mi expediente",
+        "quick_stats": "Resumen de actividad",
+        "open": "Casos abiertos",
+        "in_progress": "En proceso",
+        "resolved": "Casos resueltos",
+        "recent_activity": "Actividad reciente",
+        "view_all": "Ver todo",
+        "active_ticket": "Proceso activo"
     },
     "ticket_status": {
         "OPEN": "Solicitud Recibida",
@@ -75,6 +85,7 @@
         }
     },
     "ticket": {
+        "description": "Gestiona tus procesos para trabajar en el extranjero",
         "create": {
             "title": "Nueva Solicitud de Servicio",
             "subtitle": "Inicia tu proceso migratorio con New Horizons describiendo tu caso.",
@@ -286,5 +297,45 @@
         "file": "Archivo",
         "files": "Archivos",
         "upload_btn": "Subir"
+    },
+    "messages": {
+    "title": "Mensajes",
+    "subtitle": "Conversaciones por ticket",
+    "tickets": "Tickets",
+    "no_conversations": "Sin conversaciones activas",
+    "select_ticket": "Selecciona un ticket",
+    "select_ticket_subtitle": "Elige una conversación del panel izquierdo",
+    "placeholder": "Escribe un mensaje... (Enter para enviar)"
+    },
+    "profile": {
+        "title": "Perfil",
+        "description": "Gestiona tu información personal",
+        "personal_info": {
+            "title": "Datos Personales",
+            "full_name": "Nombre completo",
+            "email": "Correo electrónico",
+            "email_cant_be_changed": "El email no se puede modificar",
+            "phone": "Teléfono",
+            "city_country": "Ciudad y País",
+            "saving": "Guardando...",
+            "save_changes": "Guardar cambios"
+        },
+        "security": {
+            "title": "Cambiar Contraseña",
+            "current_password": "Contraseña actual",
+            "new_password": "Nueva contraseña",
+            "confirm_password": "Confirmar nueva contraseña",
+            "saving": "Guardando...",
+            "save_changes": "Actualizar contraseña",
+            "password_mismatch": "Las contraseñas no coinciden"
+        },
+        "processes": {
+            "title": "Mis procesos",
+            "no_processes": "No hay procesos registrados"
+        },
+        "payments": {
+            "title": "Historial de Pagos",
+            "description": "Aquí puedes consultar y descargar tus recibos de pago"
+        }
     }
 }

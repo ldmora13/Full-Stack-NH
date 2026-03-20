@@ -1,5 +1,6 @@
 # Node modules (en cualquier carpeta)
 node_modules
+.claude
 
 # Variables de entorno
 .env

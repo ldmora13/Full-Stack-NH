@@ -128,7 +128,7 @@ export default function TicketDetail() {
                         >
                             <ArrowLeft className="w-4 h-4 text-slate-400" />
                         </Button>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
                             {t('ticket.detail.case_number')} {ticket.id}
                         </h1>
                         <div className={`px-3 py-1 rounded-full text-xs font-bold border ${statusConfig[ticket.status as keyof typeof statusConfig]?.bg} ${statusConfig[ticket.status as keyof typeof statusConfig]?.color} ${statusConfig[ticket.status as keyof typeof statusConfig]?.border}`}>
@@ -213,21 +213,6 @@ export default function TicketDetail() {
                                     <span className="text-sm">{t('ticket.detail.started')} {new Date(ticket.createdAt).toLocaleDateString()}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Comments Section */}
-                        <div className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-xl">
-                            <div className="flex items-center gap-3 mb-6">
-                                <MessageSquare className="w-6 h-6 text-blue-400" />
-                                <h2 className="text-2xl font-bold text-white">{t('ticket.detail.comments')}</h2>
-                                <span className="text-sm text-slate-500">({comments.length})</span>
-                            </div>
-
-                            <div className="mb-6">
-                                <CommentForm ticketId={ticket.id} onCommentCreated={loadComments} />
-                            </div>
-
-                            <CommentList comments={comments} />
                         </div>
                     </div>
 

@@ -8,16 +8,16 @@ import { Toaster } from 'react-hot-toast';
 import CreateTicket from './pages/Tickets/CreateTicket';
 import TicketDetail from './pages/Tickets/TicketDetail';
 import UserList from './pages/Users/UserList';
-
-// ... (Rest of imports and Route components stay same, only adding new imports above)
+import MessagesPage from './pages/Messages/MessagesPage';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 function ProtectedRoute() {
   const { user, loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: '#313e52'}}>
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#313e52' }}>
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -32,13 +32,8 @@ function ProtectedRoute() {
 function PublicRoute() {
   const { user, loading } = useAuth();
 
-  if (loading) {
-    return null;
-  }
-
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  if (loading) return null;
+  if (user) return <Navigate to="/dashboard" replace />;
 
   return <Outlet />;
 }
@@ -57,6 +52,8 @@ function AppRoutes() {
         <Route path="/tickets/new" element={<CreateTicket />} />
         <Route path="/tickets/:id" element={<TicketDetail />} />
         <Route path="/users" element={<UserList />} />
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/profile/*" element={<ProfilePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

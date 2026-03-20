@@ -22,14 +22,24 @@
         "tickets": "Meus Processos",
         "users": "Usuários",
         "logout": "Sair",
-        "new_ticket": "Novo Processo"
+        "new_ticket": "Novo Processo",
+        "profile": "Perfil",
+        "messages": "Mensagens"
     },
     "dashboard": {
-        "welcome": "Bem-vindo à New Horizons",
-        "new_requests": "Novas Solicitações",
-        "in_progress": "Em Andamento",
-        "resolved": "Concluídos / Aprovados",
-        "recent_activity": "Atividade Recente"
+        "welcome": "Bem-vindo ao New Horizons",
+        "hello": "Olá",
+        "next_action": "Próxima etapa",
+        "check_status": "Verificar status",
+        "keep_info_updated": "Mantenha suas informações atualizadas para garantir um processo tranquilo.",
+        "go_to_ticket": "Ir para o meu caso",
+        "quick_stats": "Estatísticas rápidas",
+        "open": "Casos abertos",
+        "in_progress": "Em andamento",
+        "resolved": "Casos resolvidos",
+        "recent_activity": "Atividade recente",
+        "view_all": "Ver tudo",
+        "active_ticket": "Processo ativo"
     },
     "ticket_status": {
         "OPEN": "Solicitação Recebida",
@@ -75,6 +85,7 @@
         }
     },
     "ticket": {
+        "description": "Gerencie seus processos para trabalhar fora do país.",
         "create": {
             "title": "Nova Solicitação de Serviço",
             "subtitle": "Inicie seu processo migratório com a New Horizons descrevendo seu caso.",
@@ -286,5 +297,45 @@
         "file": "Arquivo",
         "files": "Arquivos",
         "upload_btn": "Enviar"
+    },
+    "messages": {
+        "title": "Mensagens",
+        "subtitle": "Conversas por ticket",
+        "tickets": "Chamados",
+        "no_conversations": "Nenhuma conversa ativa",
+        "select_ticket": "Selecione um chamado",
+        "select_ticket_subtitle": "Escolha uma conversa no painel à esquerda",
+        "placeholder": "Escreva uma mensagem... (Enter para enviar)"
+    },
+    "profile": {
+        "title": "Perfil",
+        "description": "Gerencie suas informações pessoais",
+        "personal_info": {
+            "title": "Informações Pessoais",
+            "full_name": "Nome completo",
+            "email": "E-mail",
+            "email_cant_be_changed": "O e-mail não pode ser alterado",
+            "phone": "Telefone",
+            "city_country": "Cidade e País",
+            "saving": "Salvando...",
+            "save_changes": "Salvar alterações"
+        },
+        "security": {
+            "title": "Alterar Senha",
+            "current_password": "Senha atual",
+            "new_password": "Nova senha",
+            "confirm_password": "Confirmar nova senha",
+            "saving": "Salvando...",
+            "save_changes": "Atualizar senha",
+            "password_mismatch": "As senhas não coincidem"
+        },
+        "processes": {
+            "title": "Meus processos",
+            "no_processes": "Nenhum processo registrado"
+        },
+        "payments": {
+            "title": "Histórico de Pagamentos",
+            "description": "Aqui você pode visualizar e baixar seus comprovantes de pagamento"
+        }
     }
 }

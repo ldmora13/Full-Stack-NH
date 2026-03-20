@@ -22,14 +22,24 @@
         "tickets": "Mes Dossiers",
         "users": "Utilisateurs",
         "logout": "Déconnexion",
-        "new_ticket": "Nouvelle Demande"
+        "new_ticket": "Nouvelle Demande",
+        "profile": "Profil",
+        "messages": "Messages"
     },
     "dashboard": {
         "welcome": "Bienvenue chez New Horizons",
-        "new_requests": "Nouvelles Demandes",
-        "in_progress": "En Cours",
-        "resolved": "Terminé / Approuvé",
-        "recent_activity": "Activité Récente"
+        "hello": "Bonjour",
+        "next_action": "Prochaine étape",
+        "check_status": "Consulter l'état",
+        "keep_info_updated": "Gardez vos informations à jour pour garantir le bon déroulement de votre dossier.",
+        "go_to_ticket": "Accéder à mon dossier",
+        "quick_stats": "Aperçu de l'activité",
+        "open": "Dossiers ouverts",
+        "in_progress": "En cours",
+        "resolved": "Dossiers finalisés",
+        "recent_activity": "Activité récente",
+        "view_all": "Tout voir",
+        "active_ticket": "Procédure active"
     },
     "ticket_status": {
         "OPEN": "Demande Reçue",
@@ -75,6 +85,7 @@
         }
     },
     "ticket": {
+        "description": "Gérez vos demandes de service pour travailler en dehors de votre pays.",
         "create": {
             "title": "Nouvelle Demande de Service",
             "subtitle": "Commencez votre processus d'immigration avec New Horizons.",
@@ -286,5 +297,45 @@
         "file": "Fichier",
         "files": "Fichiers",
         "upload_btn": "Télécharger"
+    },
+    "messages": {
+        "title": "Messages",
+        "subtitle": "Conversations par ticket",
+        "tickets": "Tickets",
+        "no_conversations": "Aucune conversation active",
+        "select_ticket": "Sélectionnez un ticket",
+        "select_ticket_subtitle": "Choisissez une conversation dans le panneau de gauche",
+        "placeholder": "Écrivez un message... (Entrée pour envoyer)"
+    },
+    "profile": {
+        "title": "Profil",
+        "description": "Gérez vos informations personnelles",
+        "personal_info": {
+            "title": "Informations personnelles",
+            "full_name": "Nom complet",
+            "email": "E-mail",
+            "email_cant_be_changed": "L'e-mail ne peut pas être modifié",
+            "phone": "Téléphone",
+            "city_country": "Ville et Pays",
+            "saving": "Enregistrement...",
+            "save_changes": "Enregistrer les modifications"
+        },
+        "security": {
+            "title": "Modifier le mot de passe",
+            "current_password": "Mot de passe actuel",
+            "new_password": "Nouveau mot de passe",
+            "confirm_password": "Confirmer le nouveau mot de passe",
+            "saving": "Enregistrement...",
+            "save_changes": "Mettre à jour le mot de passe",
+            "password_mismatch": "Les mots de passe ne correspondent pas"
+        },
+        "processes": {
+            "title": "Mes dossiers",
+            "no_processes": "Aucun dossier enregistré"
+        },
+        "payments": {
+            "title": "Historique des paiements",
+            "description": "Ici, vous pouvez consulter et télécharger vos reçus de paiement"
+        }
     }
 }

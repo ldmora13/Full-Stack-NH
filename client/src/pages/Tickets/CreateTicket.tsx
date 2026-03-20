@@ -89,7 +89,7 @@ export default function CreateTicket() {
 
                 <div className="bg-white/5/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-black/50">
                     <div className="mb-8 border-b border-white/10 pb-6">
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
+                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
                             {t('ticket.create.title')}
                         </h1>
                         <p className="text-slate-400 mt-2">

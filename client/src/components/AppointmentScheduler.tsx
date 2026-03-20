@@ -204,7 +204,7 @@ export default function AppointmentScheduler({ ticketId, onSchedule }: Appointme
                                 "w-full py-4 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-2",
                                 (!selectedDate || !selectedTime || !selectedType || isSubmitting)
                                     ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-                                    : "bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-400 hover:to-teal-400 shadow-blue-500/20"
+                                    : "bg-linear-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-400 hover:to-teal-400 shadow-blue-500/20"
                             )}
                         >
                             {isSubmitting ? (

@@ -31,7 +31,7 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                 )}
             >
                 <div className={clsx("p-2 rounded-lg transition-colors", collapsed ? "" : "bg-slate-800/50 group-hover:bg-slate-800 text-blue-400")}>
-                    <Globe className="w-5 h-5" />
+                    <Globe className="w-6 h-6" />
                 </div>
                 {!collapsed && (
                     <div className="flex flex-1 items-center justify-between overflow-hidden">
@@ -56,8 +56,8 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                 >
                     <Menu.Items
                         className={clsx(
-                            "absolute z-50 mb-2 w-56 origin-bottom-left divide-y divide-slate-700/50 rounded-2xl bg-white/5/90 shadow-2xl ring-1 ring-slate-700 backdrop-blur-xl focus:outline-none border border-slate-700/50",
-                            collapsed ? "left-12 -bottom-4 ml-5" : "bottom-full left-0 mb-5 w-full"
+                            "absolute z-50 mb-2 w-56 origin-bottom-left divide-y bg-[#1d2532] border border-slate-700 rounded-2xl bg-white/5/90 shadow-2xl ring-1 ring-slate-700 backdrop-blur-xl focus:outline-none",
+                            collapsed ? "left-12 bottom-0 ml-6" : "bottom-full left-0 mb-5 w-full"
                         )}
                     >
                         <div className="p-1.5 space-y-0.5">
@@ -65,9 +65,12 @@ export default function LanguageSelector({ collapsed = false }: LanguageSelector
                                 <Menu.Item key={lang.code}>
                                     {({ active }) => (
                                         <button
-                                            onClick={() => i18n.changeLanguage(lang.code)}
+                                            onClick={async () => {
+                                                await i18n.changeLanguage(lang.code);
+                                                window.location.reload();
+                                            }}
                                             className={clsx(
-                                                active ? 'bg-slate-800/80 text-white' : 'text-slate-300 hover:bg-slate-800/50',
+                                                active ? 'bg-slate-700 text-white' : 'text-slate-300 hover:bg-slate-800/50',
                                                 'group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-all duration-200',
                                                 i18n.language === lang.code && !active ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'border border-transparent'
                                             )}

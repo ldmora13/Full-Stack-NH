@@ -22,14 +22,24 @@
         "tickets": "My Cases",
         "users": "Users",
         "logout": "Logout",
-        "new_ticket": "New Service Request"
+        "new_ticket": "New Service Request",
+        "profile": "Profile",
+        "messages": "Messages"
     },
     "dashboard": {
         "welcome": "Welcome to New Horizons",
-        "new_requests": "New Requests",
-        "in_progress": "In Progress",
-        "resolved": "Completed / Approved",
-        "recent_activity": "Recent Activity"
+        "hello": "Hello",
+        "next_action": "Next Action",
+        "check_status": "Check Status",
+        "keep_info_updated": "Keep your information updated to ensure a smooth process.",
+        "go_to_ticket": "Go to My Case",
+        "quick_stats": "Quick Statistics",
+        "open": "Open Cases",
+        "in_progress": "In Progress Cases",
+        "resolved": "Resolved Cases",
+        "recent_activity": "Recent Activity",
+        "view_all": "View all",
+        "active_ticket": "Active Process"
     },
     "ticket_status": {
         "OPEN": "Request Received",
@@ -75,6 +85,7 @@
         }
     },
     "ticket": {
+        "description": "Manage your processes to work abroad",
         "create": {
             "title": "New Service Request",
             "subtitle": "Start your immigration process with New Horizons.",
@@ -286,5 +297,45 @@
         "file": "File",
         "files": "Files",
         "upload_btn": "Upload"
+    },
+    "messages": {
+        "title": "Messages",
+        "subtitle": "Conversations by ticket",
+        "tickets": "Tickets",
+        "no_conversations": "No active conversations",
+        "select_ticket": "Select a ticket",
+        "select_ticket_subtitle": "Choose a conversation from the left panel",
+        "placeholder": "Write a message... (Enter to send)"
+    },
+    "profile": {
+        "title": "Profile",
+        "description": "Manage your personal information",
+        "personal_info": {
+            "title": "Profile",
+            "full_name": "Full Name",
+            "email": "Email",
+            "email_cant_be_changed": "Email cannot be changed",
+            "phone": "Phone",
+            "city_country": "City and Country",
+            "saving": "Saving...",
+            "save_changes": "Save Changes"
+        },
+        "security": {
+            "title": "Change Password",
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm New Password",
+            "saving": "Saving...",
+            "save_changes": "Save Changes",
+            "password_mismatch": "Passwords do not match"
+        },
+        "processes": {
+            "title": "My processes",
+            "no_processes": "No processes registered"
+        },
+        "payments": {
+            "title": "Payment History",
+            "description": "Here you can view and download your payment receipts"
+        }
     }
 }
