@@ -16,7 +16,6 @@ export const initCheckout = catchAsync(async (req: Request, res: Response) => {
         throw new AppError('Invalid program selected', 400);
     }
 
-    // Use the amount sent from the frontend directly — no server-side recalculation
     const totalAmount = parseFloat(amount);
     if (isNaN(totalAmount) || totalAmount <= 0) {
         throw new AppError('Invalid amount provided', 400);
@@ -55,9 +54,8 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         throw new AppError('Invalid client details', 400);
     }
 
-    // 1. Capture Payment
     const request = new paypal.orders.OrdersCaptureRequest(orderID);
-    // @ts-ignore - PayPal types issue with empty body
+    // @ts-ignore
     request.requestBody({});
 
     let capture;
@@ -70,14 +68,12 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
 
     const captureData = capture.result.purchase_units[0].payments.captures[0];
 
-    // 2. Find or Create User
     let user = await db.user.findUnique({ where: { email: clientDetails.email } });
     let isNewUser = false;
-    let tempPassword = '';
 
     if (!user) {
         isNewUser = true;
-        tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
+        const tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
 
         const hashedPassword = await hash(tempPassword, {
             memoryCost: 19456,
@@ -94,35 +90,84 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
                 role: 'CLIENT'
             }
         });
+
+        // Enviar credenciales SOLO por email — nunca en la respuesta JSON
+        let ticketType: TicketType;
+        switch (clientDetails.programLabel) {
+            case 'Passeport Talent': ticketType = TicketType.WORK_VISA; break;
+            case 'VLS-TS Salarié / Visitor': ticketType = TicketType.WORK_VISA; break;
+            case 'Business / Investor': ticketType = TicketType.RESIDENCY; break;
+            default: ticketType = TicketType.OTHER;
+        }
+
+        const description = `
+            Immigration process for ${clientDetails.programLabel}.
+            Family: ${clientDetails.adults} Adults, ${clientDetails.children} Children.
+            Address: ${clientDetails.address}, ${clientDetails.city}, ${clientDetails.country}.
+        `.trim();
+
+        const ticket = await db.ticket.create({
+            data: {
+                title: `Process: ${clientDetails.programLabel}`,
+                description,
+                status: 'OPEN',
+                priority: 'MEDIUM' as Priority,
+                type: ticketType,
+                clientId: user.id
+            }
+        });
+
+        await db.payment.create({
+            data: {
+                amount: parseFloat(captureData.amount.value),
+                currency: captureData.amount.currency_code,
+                status: 'COMPLETED',
+                paypalOrderId: orderID,
+                userId: user.id,
+                ticketId: ticket.id
+            }
+        });
+
+        // La contraseña SOLO va por email, NUNCA en la respuesta
+        await EmailService.sendCheckoutCredentials(
+            { email: user.email, name: user.name },
+            {
+                tempPassword,
+                ticketId: ticket.id,
+                programLabel: clientDetails.programLabel,
+                portalUrl: process.env.CLIENT_URL || 'https://app.newhorizonsimmigrationlaw.org/login',
+            }
+        );
+
+        // No incluir tempPassword en la respuesta
+        return res.json({
+            status: 'SUCCESS',
+            isNewUser: true,
+            ticketId: ticket.id,
+            userEmail: user.email,
+            message: 'Account created. Check your email for login credentials.'
+        });
     }
 
-    // 3. Map program label to ticket type
+    // Usuario existente — solo registrar el pago y crear ticket
     let ticketType: TicketType;
-
     switch (clientDetails.programLabel) {
-        case 'Passeport Talent':
-            ticketType = TicketType.WORK_VISA;
-            break;
-        case 'VLS-TS Salarié / Visitor':
-            ticketType = TicketType.WORK_VISA;
-            break;
-        case 'Business / Investor':
-            ticketType = TicketType.RESIDENCY;
-            break;
-        default:
-            ticketType = TicketType.OTHER;
+        case 'Passeport Talent': ticketType = TicketType.WORK_VISA; break;
+        case 'VLS-TS Salarié / Visitor': ticketType = TicketType.WORK_VISA; break;
+        case 'Business / Investor': ticketType = TicketType.RESIDENCY; break;
+        default: ticketType = TicketType.OTHER;
     }
 
     const description = `
         Immigration process for ${clientDetails.programLabel}.
         Family: ${clientDetails.adults} Adults, ${clientDetails.children} Children.
         Address: ${clientDetails.address}, ${clientDetails.city}, ${clientDetails.country}.
-        `.trim();
+    `.trim();
 
     const ticket = await db.ticket.create({
         data: {
             title: `Process: ${clientDetails.programLabel}`,
-            description: description,
+            description,
             status: 'OPEN',
             priority: 'MEDIUM' as Priority,
             type: ticketType,
@@ -130,7 +175,6 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         }
     });
 
-    // 4. Record Payment — uses the actual captured amount from PayPal
     await db.payment.create({
         data: {
             amount: parseFloat(captureData.amount.value),
@@ -142,24 +186,9 @@ export const captureCheckout = catchAsync(async (req: Request, res: Response) =>
         }
     });
 
-    // 5. Send credentials email (only for new users)
-    if (isNewUser && tempPassword) {
-        await EmailService.sendCheckoutCredentials(
-            { email: user.email, name: user.name },
-            {
-                tempPassword,
-                ticketId: ticket.id,
-                programLabel: clientDetails.programLabel,
-                portalUrl: process.env.CLIENT_URL || 'https://app.newhorizonsimmigrationlaw.org/login',
-            }
-        );
-    }
-
-    // 6. Response
     res.json({
         status: 'SUCCESS',
-        isNewUser,
-        tempPassword: isNewUser ? tempPassword : null,
+        isNewUser: false,
         ticketId: ticket.id,
         userEmail: user.email
     });

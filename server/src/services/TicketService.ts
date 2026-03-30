@@ -5,6 +5,30 @@ import { EmailService } from './emailService';
 import { WORKFLOW_CONFIG } from '../config/workflow';
 import { AttachmentService } from './AttachmentService';
 
+const validateAndSanitizeMetadata = (type: TicketType, metadata?: any) => {
+    const workflowConfig = WORKFLOW_CONFIG[type as keyof typeof WORKFLOW_CONFIG];
+    if (!workflowConfig) return WORKFLOW_CONFIG['OTHER'];
+
+    // Si no hay metadata, usar el config del workflow
+    if (!metadata) return workflowConfig;
+
+    // Si tiene stages, validar que los ids sean válidos
+    if (metadata.stages) {
+        const validStageIds = workflowConfig.stages.map((s: any) => s.id);
+        const sanitizedStages = metadata.stages.filter((s: any) =>
+            validStageIds.includes(s.id) &&
+            ['PENDING', 'CURRENT', 'COMPLETED'].includes(s.status)
+        );
+        // Si los stages no son válidos, usar los del workflow
+        if (sanitizedStages.length !== workflowConfig.stages.length) {
+            return workflowConfig;
+        }
+        return { ...workflowConfig, stages: sanitizedStages };
+    }
+
+    return workflowConfig;
+};
+
 export class TicketService {
     private ticketRepository: TicketRepository;
 
@@ -22,8 +46,16 @@ export class TicketService {
         creatorRole: string;
     }): Promise<Ticket> {
         if (data.creatorRole === 'CLIENT') {
-            throw new AppError('Clients cannot create tickets', 403);
+            throw new AppError('Clients cannot create tickets directly. Please contact your advisor.', 403);
         }
+
+        const ticketType = data.type || 'OTHER';
+
+        // Validar metadata contra el workflow
+        const sanitizedMetadata = validateAndSanitizeMetadata(
+            ticketType as TicketType,
+            data.metadata
+        );
 
         return this.ticketRepository.create({
             title: data.title,
@@ -31,8 +63,8 @@ export class TicketService {
             priority: data.priority || 'MEDIUM',
             client: { connect: { id: data.clientId } },
             status: 'OPEN',
-            type: data.type || 'OTHER',
-            metadata: data.metadata || WORKFLOW_CONFIG[(data.type || 'OTHER') as keyof typeof WORKFLOW_CONFIG] || {},
+            type: ticketType as TicketType,
+            metadata: sanitizedMetadata,
         });
     }
 
@@ -51,14 +83,12 @@ export class TicketService {
 
         const where: Prisma.TicketWhereInput = {};
 
-        // Role-based filtering
         if (userRole === 'CLIENT') {
             where.clientId = userId;
         } else if (userRole === 'ADVISOR') {
             where.advisorId = userId;
         }
 
-        // Additional filters
         if (status) where.status = status;
         if (priority) where.priority = priority;
 
@@ -94,12 +124,16 @@ export class TicketService {
             throw new AppError('Ticket not found', 404);
         }
 
-        // Authorization check
         if (userRole === 'CLIENT' && ticket.clientId !== userId) {
-            throw new AppError('Forbidden', 403);
+            throw new AppError('You do not have access to this ticket', 403);
         }
 
-        // Sign attachment URLs if they exist
+        // Advisor solo puede ver tickets asignados a él
+        if (userRole === 'ADVISOR' && ticket.advisorId && ticket.advisorId !== userId) {
+            throw new AppError('You do not have access to this ticket', 403);
+        }
+
+        // Firmar URLs de adjuntos
         if ((ticket as any).attachments) {
             (ticket as any).attachments = await AttachmentService.signAttachments((ticket as any).attachments);
         }
@@ -107,14 +141,30 @@ export class TicketService {
         return ticket;
     }
 
-    async updateTicket(id: number, data: { status?: TicketStatus; priority?: Priority; advisorId?: string; metadata?: any }): Promise<Ticket> {
-        // TODO: Add authorization logic here if needed (e.g. only admins can assign advisors)
+    async updateTicket(id: number, data: {
+        status?: TicketStatus;
+        priority?: Priority;
+        advisorId?: string;
+        metadata?: any;
+    }): Promise<Ticket> {
+        // Si viene metadata, validarla
+        const existingTicket = await this.ticketRepository.findById(id);
+        if (!existingTicket) {
+            throw new AppError('Ticket not found', 404);
+        }
 
-        const updatedTicket = await this.ticketRepository.update(id, data);
+        let sanitizedData = { ...data };
+        if (data.metadata) {
+            sanitizedData.metadata = validateAndSanitizeMetadata(
+                existingTicket.type as TicketType,
+                data.metadata
+            );
+        }
 
-        // Check if client exists and has email before sending notification
+        const updatedTicket = await this.ticketRepository.update(id, sanitizedData);
+
         const ticketWithClient = updatedTicket as any;
-        if (data.status && ticketWithClient.client && ticketWithClient.client.email) {
+        if (data.status && ticketWithClient.client?.email) {
             await EmailService.sendTicketStatusUpdate(updatedTicket, ticketWithClient.client);
         }
 

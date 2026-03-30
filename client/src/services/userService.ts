@@ -28,7 +28,7 @@ export const UserService = {
     },
 
     update: async (id: string, updates: Partial<Pick<User, 'name' | 'role'>>) => {
-        const { data } = await api.post<{ user: User }>(`/users/${id}`, updates);
+        const { data } = await api.patch<{ user: User }>(`/users/${id}`, updates);
         return data.user;
     },
 

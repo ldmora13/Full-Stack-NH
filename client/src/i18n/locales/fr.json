@@ -39,7 +39,8 @@
         "resolved": "Dossiers finalisés",
         "recent_activity": "Activité récente",
         "view_all": "Tout voir",
-        "active_ticket": "Procédure active"
+        "active_ticket": "Procédure active",
+        "new_requests": "Nouvelle demande"
     },
     "ticket_status": {
         "OPEN": "Demande Reçue",
@@ -305,7 +306,9 @@
         "no_conversations": "Aucune conversation active",
         "select_ticket": "Sélectionnez un ticket",
         "select_ticket_subtitle": "Choisissez une conversation dans le panneau de gauche",
-        "placeholder": "Écrivez un message... (Entrée pour envoyer)"
+        "placeholder": "Écrivez un message",
+        "no_messages": "Aucun message pour le moment",
+        "start_conversation": "Commencez une conversation en envoyant un message!"
     },
     "profile": {
         "title": "Profil",
@@ -327,7 +330,8 @@
             "confirm_password": "Confirmer le nouveau mot de passe",
             "saving": "Enregistrement...",
             "save_changes": "Mettre à jour le mot de passe",
-            "password_mismatch": "Les mots de passe ne correspondent pas"
+            "password_mismatch": "Les mots de passe ne correspondent pas",
+            "password_changed_success": "Mot de passe changé avec succès"
         },
         "processes": {
             "title": "Mes dossiers",

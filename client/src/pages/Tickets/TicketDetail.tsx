@@ -148,7 +148,7 @@ export default function TicketDetail() {
 
                 {/* Stage Actions Section */}
                 {currentStageId === 'HR_INTERVIEW' && paymentStatus === 'PENDING' && (
-                    <div className="mb-8 p-8 bg-white/5/60 border border-blue-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
+                    <div className="mb-8 p-8 bg-white/5 border border-blue-500/30 rounded-3xl shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-32 bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                         <h2 className="text-2xl font-bold text-white mb-2 relative z-10">Pago de Procesamiento</h2>
                         <p className="text-slate-400 mb-6 relative z-10">Para continuar con la entrevista de RRHH y la aprobación del patrocinio, es necesario cubrir el 35% del valor del trámite.</p>
@@ -166,7 +166,7 @@ export default function TicketDetail() {
                 {/* Payment History Section */}
                 {ticket.payments && ticket.payments.length > 0 && (
                     <div className="mb-8">
-                        <h3 className="text-xl font-bold text-white mb-4">Historial de Pagos</h3>
+                        <h3 className="text-xl font-bold text-white mb-4">{t('payments.title')}</h3>
                         <PaymentHistory payments={ticket.payments} />
                     </div>
                 )}

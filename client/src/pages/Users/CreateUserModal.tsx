@@ -100,16 +100,30 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
                             <label className="block text-sm font-medium text-slate-300 mb-2">
                                 {t('modals.create_user.fields.role')}
                             </label>
-                            <select
-                                name="role"
-                                value={formData.role}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 bg-black/30/50 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 focus:ring-4 focus:ring-purple-500/10 text-white transition-all"
-                            >
-                                <option value="CLIENT">{t('roles.CLIENT')}</option>
-                                <option value="ADVISOR">{t('roles.ADVISOR')}</option>
-                                <option value="ADMIN">{t('roles.ADMIN')}</option>
-                            </select>
+                            <div className="w-full flex gap-2">
+                            {([
+                                { value: "CLIENT", label: t('roles.CLIENT') },
+                                { value: "ADVISOR", label: t('roles.ADVISOR') },
+                                { value: "ADMIN", label: t('roles.ADMIN') },
+                            ] as const).map((role) => (
+                                <button
+                                    key={role.value}
+                                    type="button"
+                                    onClick={() =>
+                                        setFormData((prev) => ({ ...prev, role: role.value }))
+                                    }
+                                    className={`flex-1 px-4 py-3 rounded-xl border transition-all text-white
+                                    ${
+                                    formData.role === role.value
+                                        ? "border-purple-500/50 ring-2 ring-purple-500/10"
+                                        : "bg-black/30 border-white/10 hover:border-purple-500/30"
+                                    }
+                                `}
+                                >
+                                {role.label}
+                                </button>
+                            ))}
+                            </div>
                         </div>
 
                         {error && (
@@ -122,7 +136,7 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
                             <Button type="button" variant="outline" onClick={onClose} className="flex-1">
                                 {t('common.cancel')}
                             </Button>
-                            <Button type="submit" isLoading={loading} className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600">
+                            <Button variant='secondary' type="submit" isLoading={loading} className="flex-1">
                                 <Save className="w-4 h-4" />
                                 {loading ? t('modals.create_user.submitting') : t('modals.create_user.submit')}
                             </Button>

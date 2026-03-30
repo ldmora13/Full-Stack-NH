@@ -39,7 +39,8 @@
         "resolved": "Casos resueltos",
         "recent_activity": "Actividad reciente",
         "view_all": "Ver todo",
-        "active_ticket": "Proceso activo"
+        "active_ticket": "Proceso activo",
+        "new_requests": "Nueva solicitud"
     },
     "ticket_status": {
         "OPEN": "Solicitud Recibida",
@@ -305,7 +306,9 @@
     "no_conversations": "Sin conversaciones activas",
     "select_ticket": "Selecciona un ticket",
     "select_ticket_subtitle": "Elige una conversación del panel izquierdo",
-    "placeholder": "Escribe un mensaje... (Enter para enviar)"
+    "placeholder": "Escribe un mensaje",
+    "no_messages": "No hay mensajes aún",
+    "start_conversation": "¡Inicia la conversación enviando un mensaje!"
     },
     "profile": {
         "title": "Perfil",
@@ -327,7 +330,8 @@
             "confirm_password": "Confirmar nueva contraseña",
             "saving": "Guardando...",
             "save_changes": "Actualizar contraseña",
-            "password_mismatch": "Las contraseñas no coinciden"
+            "password_mismatch": "Las contraseñas no coinciden",
+            "password_changed_success": "Contraseña cambiada con éxito"
         },
         "processes": {
             "title": "Mis procesos",

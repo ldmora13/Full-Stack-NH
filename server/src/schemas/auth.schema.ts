@@ -19,3 +19,15 @@ export const loginSchema = registry.register('Login', z.object({
         password: z.string().min(1, 'Password is required').openapi({ example: 'password123' }),
     }),
 }));
+
+export const changePasswordSchema = registry.register('ChangePassword', z.object({
+    body: z.object({
+        currentPassword: z.string().min(1, 'Current password is required').openapi({ example: 'oldPassword123' }),
+        newPassword: z
+            .string()
+            .min(8, 'New password must be at least 8 characters')
+            .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
+            .regex(/[0-9]/, 'Must contain at least one number')
+            .openapi({ example: 'NewPassword123' }),
+    }),
+}));

@@ -6,12 +6,14 @@ const appointmentService = new AppointmentService();
 
 export const createAppointment = catchAsync(async (req: Request, res: Response) => {
     const { date, type, ticketId, link } = req.body;
+    const user = res.locals.user;
 
     const appointment = await appointmentService.createAppointment({
         date,
         type,
         ticketId: Number(ticketId),
-        link
+        link,
+        scheduledById: user.id,
     });
 
     res.status(201).json({ appointment });
@@ -33,8 +35,14 @@ export const getAppointments = catchAsync(async (req: Request, res: Response) =>
 export const updateAppointmentStatus = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const { status } = req.body;
+    const user = res.locals.user;
 
-    const appointment = await appointmentService.updateStatus(Number(id), status);
+    const appointment = await appointmentService.updateStatus(
+        Number(id),
+        status,
+        user.id,
+        user.role
+    );
 
     res.json({ appointment });
 });

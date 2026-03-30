@@ -9,10 +9,32 @@ export class AppointmentService {
         type: string;
         ticketId: number;
         link?: string;
+        scheduledById?: string; // el advisor/admin que agenda
     }): Promise<Appointment> {
         const appointmentDate = new Date(data.date);
 
-        // Basic availability check (prevent double booking for same ticket at same time)
+        if (isNaN(appointmentDate.getTime())) {
+            throw new AppError('Invalid appointment date', 400);
+        }
+
+        // No permitir citas en el pasado
+        if (appointmentDate < new Date()) {
+            throw new AppError('Appointment date cannot be in the past', 400);
+        }
+
+        // Verificar que el ticket existe
+        const ticket = await db.ticket.findUnique({
+            where: { id: data.ticketId },
+            include: {
+                client: { select: { name: true, email: true } }
+            }
+        });
+
+        if (!ticket) {
+            throw new AppError('Ticket not found', 404);
+        }
+
+        // Prevenir doble booking para el mismo ticket en el mismo horario
         const existingAppointment = await db.appointment.findFirst({
             where: {
                 ticketId: data.ticketId,
@@ -22,7 +44,7 @@ export class AppointmentService {
         });
 
         if (existingAppointment) {
-            throw new AppError('Appointment already exists for this ticket at this time', 400);
+            throw new AppError('An appointment already exists for this ticket at this time', 409);
         }
 
         const appointment = await db.appointment.create({
@@ -31,20 +53,34 @@ export class AppointmentService {
                 type: data.type,
                 ticket: { connect: { id: data.ticketId } },
                 link: data.link,
-                status: 'SCHEDULED'
+                status: 'SCHEDULED',
+                // FIX #19: Registrar quién agendó
+                ...(data.scheduledById && {
+                    scheduledBy: { connect: { id: data.scheduledById } }
+                }),
             },
             include: {
                 ticket: {
                     include: {
                         client: { select: { name: true, email: true } }
                     }
+                },
+                scheduledBy: {
+                    select: { name: true, email: true }
                 }
             }
         });
 
-        // Send confirmation email
-        if (appointment.ticket.client?.email) {
-            await EmailService.sendAppointmentConfirmation(appointment, appointment.ticket.client);
+        const clientEmail = (appointment as any).ticket?.client?.email;
+        if (clientEmail) {
+            try {
+                await EmailService.sendAppointmentConfirmation(
+                    appointment,
+                    { email: clientEmail, name: (appointment as any).ticket.client.name }
+                );
+            } catch (emailError) {
+                console.error('Failed to send appointment confirmation email:', emailError);
+            }
         }
 
         return appointment;
@@ -76,13 +112,26 @@ export class AppointmentService {
                         client: { select: { name: true } },
                         advisor: { select: { name: true } }
                     }
+                },
+                scheduledBy: {
+                    select: { name: true, role: true }
                 }
             },
             orderBy: { date: 'asc' }
         });
     }
 
-    async updateStatus(id: number, status: string): Promise<Appointment> {
+    async updateStatus(id: number, status: string, userId: string, userRole: string): Promise<Appointment> {
+        const validStatuses = ['SCHEDULED', 'COMPLETED', 'CANCELLED'];
+        if (!validStatuses.includes(status)) {
+            throw new AppError(`Invalid status. Must be one of: ${validStatuses.join(', ')}`, 400);
+        }
+
+        const appointment = await db.appointment.findUnique({ where: { id } });
+        if (!appointment) {
+            throw new AppError('Appointment not found', 404);
+        }
+
         return db.appointment.update({
             where: { id },
             data: { status }

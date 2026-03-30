@@ -9,6 +9,11 @@ export interface AuthResponse {
     user: User;
 }
 
+export interface ChangePasswordData {
+    currentPassword: string;
+    newPassword: string;
+}
+
 export interface ErrorResponse {
     error: string;
 }

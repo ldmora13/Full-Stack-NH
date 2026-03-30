@@ -1,14 +1,27 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import api from '../lib/api';
-import type { User, AuthResponse } from '../types/auth';
+import type { User, AuthResponse, ChangePasswordData } from '../types/auth';
+
+// Tipos correctos — login y signup reciben objetos, no parámetros separados
+interface LoginCredentials {
+    email: string;
+    password: string;
+}
+
+interface SignupCredentials {
+    email: string;
+    password: string;
+    name: string;
+}
 
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
-    signup: (email: string, password: string, name: string) => Promise<void>;
+    login: (credentials: LoginCredentials) => Promise<void>;
+    signup: (credentials: SignupCredentials) => Promise<void>;
     logout: () => Promise<void>;
+    changePassword: (data: ChangePasswordData) => Promise<void>;
     setUser: (user: User | null) => void;
 }
 
@@ -33,12 +46,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }
 
-    async function login(credentials: any) {
+    // Firma tipada correctamente
+    async function login(credentials: LoginCredentials) {
         const { data } = await api.post<AuthResponse>('/auth/login', credentials);
         setUser(data.user);
     }
 
-    async function signup(credentials: any) {
+    async function signup(credentials: SignupCredentials) {
         const { data } = await api.post<AuthResponse>('/auth/signup', credentials);
         setUser(data.user);
     }
@@ -48,8 +62,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
     }
 
+    async function changePassword(data: ChangePasswordData) {
+        await api.patch('/auth/change-password', data);
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, signup, logout, setUser }}>
+        <AuthContext.Provider value={{ user, loading, login, signup, logout, changePassword, setUser }}>
             {children}
         </AuthContext.Provider>
     );

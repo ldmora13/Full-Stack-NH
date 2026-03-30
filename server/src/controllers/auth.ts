@@ -3,6 +3,9 @@ import { AuthService } from '../services/AuthService';
 import { catchAsync } from '../utils/catchAsync';
 import { lucia } from '../lib/auth';
 import { AuditLogService } from '../services/AuditLogService';
+import { db } from '../lib/db';
+import { verify, hash } from '@node-rs/argon2';
+import { AppError } from '../utils/AppError';
 
 const authService = new AuthService();
 
@@ -47,13 +50,6 @@ export const logout = catchAsync(async (req: Request, res: Response) => {
     }
 
     const sessionCookie = await authService.logout(sessionId);
-
-    // We might not have user info easily here without extra lookup, but for now we skip userId or decode session if needed.
-    // Actually, we can get user from session if we validated it before, but logout just invalidates.
-    // Let's check `validateSession` usage in getMe. 
-    // For now, let's skip logging logout or try to get user if possible.
-    // Simplifying: skipping logout log for MVP as it requires resolving session to user.
-
     res.setHeader("Set-Cookie", sessionCookie.serialize());
     res.status(200).send();
 });
@@ -76,12 +72,80 @@ export const getMe = catchAsync(async (req: Request, res: Response) => {
         return;
     }
 
-    if (session && session.fresh) {
+    if (session.fresh) {
         const sessionCookie = lucia.createSessionCookie(session.id);
         res.setHeader("Set-Cookie", sessionCookie.serialize());
     }
 
-    // Don't send password hash
     const { password: _, ...userWithoutPassword } = user as any;
     res.status(200).json({ user: userWithoutPassword });
+});
+
+// Endpoint para cambio de contraseña
+export const changePassword = catchAsync(async (req: Request, res: Response) => {
+    const { currentPassword, newPassword } = req.body;
+    const user = res.locals.user;
+
+    if (!currentPassword || !newPassword) {
+        throw new AppError('Current password and new password are required', 400);
+    }
+
+    if (newPassword.length < 8) {
+        throw new AppError('New password must be at least 8 characters', 400);
+    }
+
+    if (!/[A-Z]/.test(newPassword)) {
+        throw new AppError('New password must contain at least one uppercase letter', 400);
+    }
+
+    if (!/[0-9]/.test(newPassword)) {
+        throw new AppError('New password must contain at least one number', 400);
+    }
+
+    // Obtener el usuario completo (con contraseña) desde la DB
+    const fullUser = await db.user.findUnique({ where: { id: user.id } });
+    if (!fullUser) {
+        throw new AppError('User not found', 404);
+    }
+
+    // Verificar contraseña actual
+    const validPassword = await verify(fullUser.password, currentPassword);
+    if (!validPassword) {
+        throw new AppError('Current password is incorrect', 400);
+    }
+
+    // No permitir la misma contraseña
+    const samePassword = await verify(fullUser.password, newPassword);
+    if (samePassword) {
+        throw new AppError('New password must be different from current password', 400);
+    }
+
+    const hashedPassword = await hash(newPassword, {
+        memoryCost: 19456,
+        timeCost: 2,
+        outputLen: 32,
+        parallelism: 1,
+    });
+
+    await db.user.update({
+        where: { id: user.id },
+        data: { password: hashedPassword }
+    });
+
+    // Invalidar todas las sesiones del usuario (seguridad)
+    await lucia.invalidateUserSessions(user.id);
+
+    // Crear nueva sesión para que no se cierre la sesión actual
+    const session = await lucia.createSession(user.id, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    res.setHeader("Set-Cookie", sessionCookie.serialize());
+
+    await AuditLogService.log({
+        action: 'CHANGE_PASSWORD',
+        entity: 'USER',
+        entityId: user.id,
+        userId: user.id
+    });
+
+    res.status(200).json({ message: 'Password changed successfully' });
 });

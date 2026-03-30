@@ -1,5 +1,6 @@
 {
     "common": {
+        "amount": "Amount",
         "loading": "Loading...",
         "error": "An error occurred",
         "save": "Save",
@@ -39,7 +40,8 @@
         "resolved": "Resolved Cases",
         "recent_activity": "Recent Activity",
         "view_all": "View all",
-        "active_ticket": "Active Process"
+        "active_ticket": "Active Process",
+        "new_requests": "New Requests"
     },
     "ticket_status": {
         "OPEN": "Request Received",
@@ -305,7 +307,9 @@
         "no_conversations": "No active conversations",
         "select_ticket": "Select a ticket",
         "select_ticket_subtitle": "Choose a conversation from the left panel",
-        "placeholder": "Write a message... (Enter to send)"
+        "placeholder": "Write a message",
+        "no_messages": "No messages yet",
+        "start_conversation": "Start conversation by sending a message!"
     },
     "profile": {
         "title": "Profile",
@@ -327,7 +331,8 @@
             "confirm_password": "Confirm New Password",
             "saving": "Saving...",
             "save_changes": "Save Changes",
-            "password_mismatch": "Passwords do not match"
+            "password_mismatch": "Passwords do not match",
+            "password_changed_success": "Password changed successfully"
         },
         "processes": {
             "title": "My processes",
@@ -337,5 +342,8 @@
             "title": "Payment History",
             "description": "Here you can view and download your payment receipts"
         }
+    },
+    "payments": {
+        "title": "Payment History"
     }
 }

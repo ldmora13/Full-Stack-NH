@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
@@ -26,8 +26,18 @@ import { Fragment } from 'react';
 export default function Layout({ children }: { children: ReactNode }) {
   const { logout, user } = useAuth();
   const location = useLocation();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    // Default to closed on mobile, open on desktop
+    return typeof window !== 'undefined' ? window.innerWidth >= 1024 : true;
+  });
   const { t } = useTranslation();
+
+  useEffect(() => {
+    // Close sidebar on navigation if on mobile
+    if (window.innerWidth < 1024) {
+      setIsSidebarOpen(false);
+    }
+  }, [location.pathname]);
 
   const baseNavItems = [
     { label: t('nav.dashboard'), icon: LayoutDashboard, path: '/dashboard' },
@@ -175,7 +185,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 h-screen overflow-auto flex flex-col">
-        <header className="h-16 border-b border-white/10 bg-white/5/50 backdrop-blur-xl flex items-center px-6 lg:hidden sticky top-0 z-40">
+        <header className="h-16 border-b border-white/10 bg-white/5 backdrop-blur-xl flex items-center py-4 px-6 lg:hidden flex top-0 z-40">
           <button onClick={() => setIsSidebarOpen(true)}>
             <Menu className="w-6 h-6 text-slate-300" />
           </button>

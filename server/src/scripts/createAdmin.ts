@@ -14,7 +14,22 @@ async function createAdmin() {
         });
 
         if (existingAdmin) {
-            console.log('❌ Admin user already exists!');
+            console.log('🔄 Admin user already exists. Updating password...');
+            const hashedPassword = await hash(password, {
+                memoryCost: 19456,
+                timeCost: 2,
+                outputLen: 32,
+                parallelism: 1,
+            });
+
+            await db.user.update({
+                where: { email },
+                data: { password: hashedPassword }
+            });
+
+            console.log('✅ Admin password updated successfully!');
+            console.log('📧 Email:', email);
+            console.log('🔑 Password:', password);
             process.exit(0);
         }
 

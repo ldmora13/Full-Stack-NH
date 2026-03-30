@@ -11,10 +11,12 @@ export const verifyAuth = async (req: Request, res: Response, next: NextFunction
     const { session, user } = await lucia.validateSession(sessionId);
 
     if (!session) {
+        const blankCookie = lucia.createBlankSessionCookie();
+        res.setHeader("Set-Cookie", blankCookie.serialize());
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    if (session && session.fresh) {
+    if (session.fresh) {
         const sessionCookie = lucia.createSessionCookie(session.id);
         res.setHeader('Set-Cookie', sessionCookie.serialize());
     }

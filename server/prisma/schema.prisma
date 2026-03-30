@@ -34,6 +34,14 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum TicketType {
+  WORK_VISA
+  STUDENT_VISA
+  RESIDENCY
+  CITIZENSHIP
+  OTHER
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -42,13 +50,15 @@ model User {
   role      Role     @default(CLIENT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tickets   Ticket[] @relation("CreatedTickets")
-  assignedTickets Ticket[] @relation("AssignedTickets")
-  comments  Comment[]
-  payments  Payment[]
-  attachments Attachment[]
-  sessions  Session[]
-  auditLogs AuditLog[]
+
+  tickets             Ticket[]     @relation("CreatedTickets")
+  assignedTickets     Ticket[]     @relation("AssignedTickets")
+  comments            Comment[]
+  payments            Payment[]
+  attachments         Attachment[]
+  sessions            Session[]
+  auditLogs           AuditLog[]
+  scheduledAppointments Appointment[] @relation("ScheduledBy") // FIX #19
 }
 
 model Session {
@@ -56,14 +66,8 @@ model Session {
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
-}
 
-enum TicketType {
-  WORK_VISA
-  STUDENT_VISA
-  RESIDENCY
-  CITIZENSHIP
-  OTHER
+  @@index([userId])
 }
 
 model Ticket {
@@ -73,48 +77,61 @@ model Ticket {
   status      TicketStatus @default(OPEN)
   priority    Priority     @default(MEDIUM)
   type        TicketType   @default(OTHER)
-  metadata    Json?        // Stores timeline progress and checklist status
+  metadata    Json?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  
+
   clientId    String
   client      User         @relation("CreatedTickets", fields: [clientId], references: [id])
-  
+
   advisorId   String?
   advisor     User?        @relation("AssignedTickets", fields: [advisorId], references: [id])
-  
-  comments    Comment[]
-  payments    Payment[]
+
+  comments     Comment[]
+  payments     Payment[]
   appointments Appointment[]
-  attachments Attachment[]
+  attachments  Attachment[]
+
+  // Índices en columnas filtradas frecuentemente
+  @@index([clientId])
+  @@index([advisorId])
+  @@index([status])
+  @@index([type])
+  @@index([updatedAt(sort: Desc)])
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
-  
+
   ticketId  Int
   ticket    Ticket   @relation(fields: [ticketId], references: [id])
-  
+
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+
+  @@index([ticketId])
+  @@index([userId])
 }
 
 model Payment {
-  id        Int           @id @default(autoincrement())
-  amount    Decimal
-  currency  String        @default("USD")
-  status    PaymentStatus @default(PENDING)
+  id            Int           @id @default(autoincrement())
+  amount        Decimal
+  currency      String        @default("USD")
+  status        PaymentStatus @default(PENDING)
   paypalOrderId String?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   userId    String
   user      User          @relation(fields: [userId], references: [id])
 
   ticketId  Int?
   ticket    Ticket?       @relation(fields: [ticketId], references: [id])
+
+  @@index([userId])
+  @@index([ticketId])
 }
 
 model Attachment {
@@ -125,23 +142,28 @@ model Attachment {
   size      Int?
   createdAt DateTime @default(now())
 
-  ticketId  Int?
-  ticket    Ticket?  @relation(fields: [ticketId], references: [id])
+  ticketId   Int?
+  ticket     Ticket?  @relation(fields: [ticketId], references: [id])
 
   uploaderId String
   uploader   User    @relation(fields: [uploaderId], references: [id])
+
+  @@index([ticketId])
 }
 
 model AuditLog {
   id        Int      @id @default(autoincrement())
-  action    String   // CREATE, UPDATE, DELETE, LOGIN, ETC
-  entity    String   // TICKET, USER, PAYMENT
-  entityId  String   // ID of the entity affected
-  details   String?  // JSON string or description of changes
+  action    String
+  entity    String
+  entityId  String
+  details   String?
   createdAt DateTime @default(now())
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity, entityId])
 }
 
 model Appointment {
@@ -154,4 +176,10 @@ model Appointment {
 
   ticketId  Int
   ticket    Ticket   @relation(fields: [ticketId], references: [id])
+
+  scheduledById String?
+  scheduledBy   User?   @relation("ScheduledBy", fields: [scheduledById], references: [id])
+
+  @@index([ticketId])
+  @@index([scheduledById])
 }

@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
 import { db } from '../lib/db';
 import { lucia } from '../lib/auth';
+import { AuditLogService } from '../services/AuditLogService';
 
 export const loginAs = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const currentUser = res.locals.user;
 
-        // Only admins can login as other users
         if (currentUser.role !== 'ADMIN') {
             return res.status(403).json({ error: 'Forbidden: Only admins can use this feature' });
         }
 
-        // Get target user
+        if (userId === currentUser.id) {
+            return res.status(400).json({ error: 'Cannot login as yourself' });
+        }
+
         const targetUser = await db.user.findUnique({
             where: { id: userId }
         });
@@ -21,11 +24,17 @@ export const loginAs = async (req: Request, res: Response) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Create new session for target user
         const session = await lucia.createSession(targetUser.id, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
+        res.setHeader("Set-Cookie", sessionCookie.serialize());
 
-        res.cookie(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+        await AuditLogService.log({
+            action: 'LOGIN_AS',
+            entity: 'USER',
+            entityId: targetUser.id,
+            userId: currentUser.id,
+            details: { targetEmail: targetUser.email, targetRole: targetUser.role }
+        });
 
         res.json({
             user: {

@@ -110,6 +110,7 @@ function PersonalInfo() {
 
 // ————— Security Tab —————
 function SecurityTab() {
+  const { changePassword } = useAuth();
   const [form, setForm] = useState({ current: '', next: '', confirm: '' });
   const [saving, setSaving] = useState(false);
 
@@ -119,10 +120,20 @@ function SecurityTab() {
       return;
     }
     setSaving(true);
-    await new Promise(r => setTimeout(r, 800));
-    toast.info('Próximamente: cambio de contraseña');
-    setSaving(false);
-    setForm({ current: '', next: '', confirm: '' });
+    try {
+      await changePassword({
+        currentPassword: form.current,
+        newPassword: form.next,
+      });
+      toast.success(t('profile.security.password_changed_success') || 'Contraseña cambiada con éxito');
+      setForm({ current: '', next: '', confirm: '' });
+    } catch (error: any) {
+      console.error('Error changing password:', error);
+      const message = error.response?.data?.error || error.message || 'Error al cambiar la contraseña';
+      toast.error(message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (

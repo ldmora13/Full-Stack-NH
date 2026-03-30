@@ -7,11 +7,11 @@ import { useAuth } from '../../context/AuthContext';
 import { TicketService } from '../../services/ticketService';
 import { CommentService } from '../../services/commentService';
 import type { Comment } from '../../services/commentService';
-import { Send, MessageSquare, Paperclip } from 'lucide-react';
+import { Send, MessageSquare, Paperclip, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 import { toast } from 'react-hot-toast';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface ConversationItem {
   id: number;
@@ -24,6 +24,7 @@ interface ConversationItem {
 
 export default function MessagesPage() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
@@ -51,9 +52,9 @@ export default function MessagesPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [comments]);
 
-  // Auto-select first ticket
+  // Auto-select first ticket ONLY on desktop
   useEffect(() => {
-    if (tickets.length > 0 && !selectedTicketId) {
+    if (window.innerWidth >= 768 && tickets.length > 0 && !selectedTicketId) {
       setSelectedTicketId(tickets[0].id);
     }
   }, [tickets]);
@@ -90,17 +91,20 @@ export default function MessagesPage() {
 
   return (
     <Layout>
-      <div className="h-[calc(100vh-10rem)] flex flex-col">
-        <div className="mb-6">
+      <div className="h-[calc(100vh-10rem)] flex flex-col max-w-7xl mx-auto w-full">
+        <div className={clsx("mb-6 transition-all duration-300", selectedTicketId && "hidden md:block")}>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
             {t('messages.title')}
           </h1>
           <p className="text-slate-400 mt-1">{t('messages.subtitle')}</p>
         </div>
 
-        <div className="flex-1 flex gap-6 min-h-0 overflow-hidden">
+        <div className="flex-1 flex gap-6 min-h-0 overflow-hidden relative">
           {/* Left panel: Conversations */}
-          <div className="w-80 shrink-0 flex flex-col glass rounded-3xl overflow-hidden">
+          <div className={clsx(
+            "w-full md:w-80 shrink-0 flex flex-col glass rounded-3xl overflow-hidden transition-all duration-300",
+            selectedTicketId ? "hidden md:flex" : "flex"
+          )}>
             <div className="p-4 border-b border-white/10 shrink-0">
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                 {t('messages.tickets')} ({tickets.length})
@@ -119,26 +123,31 @@ export default function MessagesPage() {
                       key={ticket.id}
                       onClick={() => setSelectedTicketId(ticket.id)}
                       className={clsx(
-                        'w-full text-left p-3 rounded-xl transition-all',
+                        'w-full text-left p-4 rounded-2xl transition-all relative group',
                         selectedTicketId === ticket.id
                           ? 'bg-blue-500/10 border border-blue-500/30'
-                          : 'hover:bg-white/5/30 border border-transparent'
+                          : 'hover:bg-white/5 border border-transparent'
                       )}
                     >
-                      <div className="flex items-start gap-3">
-                        <div className="pt-1 shrink-0">
-                          <div className={clsx('w-2 h-2 rounded-full', statusColors[ticket.status] || 'bg-slate-500')} />
+                      <div className="flex items-center gap-4">
+                        <div className="shrink-0">
+                          <div className={clsx('w-3 h-3 rounded-full shadow-lg', statusColors[ticket.status] || 'bg-slate-500')} />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className={clsx(
-                            'text-sm font-medium truncate',
-                            selectedTicketId === ticket.id ? 'text-blue-300' : 'text-slate-200'
+                            'text-sm font-semibold truncate transition-colors',
+                            selectedTicketId === ticket.id ? 'text-blue-300' : 'text-slate-200 group-hover:text-white'
                           )}>
                             {ticket.title}
                           </p>
-                          <p className="text-xs text-slate-500 mt-0.5">
-                            EXP-{ticket.id.toString().padStart(4, '0')}
-                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-white/5 text-slate-500 font-mono">
+                              EXP-{ticket.id.toString().padStart(4, '0')}
+                            </span>
+                            <span className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">
+                              {ticket.status.replace('_', ' ')}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </button>
@@ -149,26 +158,39 @@ export default function MessagesPage() {
           </div>
 
           {/* Right panel: Chat */}
-          <div className="flex-1 flex flex-col glass rounded-3xl overflow-hidden min-w-0">
+          <div className={clsx(
+            "flex-1 flex flex-col glass rounded-3xl overflow-hidden min-w-0 transition-all duration-300",
+            selectedTicketId ? "flex" : "hidden md:flex"
+          )}>
             {selectedTicket ? (
               <>
                 {/* Chat header */}
-                <div className="p-5 border-b border-white/10 shrink-0 flex items-center gap-4">
-                  <div>
-                    <h3 className="font-semibold text-white">{selectedTicket.title}</h3>
+                <div className="p-4 md:p-5 border-b border-white/10 shrink-0 flex items-center gap-4 bg-white/5/30">
+                  <button 
+                    onClick={() => setSelectedTicketId(null)}
+                    className="md:hidden p-2 -ml-2 rounded-xl hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-white truncate text-sm md:text-base">{selectedTicket.title}</h3>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <div className={clsx('w-1.5 h-1.5 rounded-full', statusColors[selectedTicket.status])} />
-                      <span className="text-xs text-slate-400 capitalize">{selectedTicket.status.replace('_', ' ')}</span>
+                      <div className={clsx('w-2 h-2 rounded-full', statusColors[selectedTicket.status])} />
+                      <span className="text-[11px] md:text-xs text-slate-400 font-medium uppercase tracking-wider">{selectedTicket.status.replace('_', ' ')}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 scrollbar-thin bg-black/10">
                   {comments.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-                      <MessageSquare className="w-10 h-10 text-slate-600" />
-                      <p className="text-slate-500">No hay mensajes aún. ¡Inicia la conversación!</p>
+                      <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-2">
+                        <MessageSquare className="w-8 h-8 text-slate-600" />
+                      </div>
+                      <p className="text-slate-400 font-medium">{t('messages.no_messages')}</p>
+                      <p className="text-slate-500 text-sm max-w-50">{t('messages.start_conversation')}</p>
                     </div>
                   ) : (
                     <>
@@ -196,26 +218,26 @@ export default function MessagesPage() {
                 </div>
 
                 {/* Input */}
-                <div className="p-4 border-t border-white/10 shrink-0">
-                  <div className="flex items-end gap-3">
-                    <div className="flex-1 relative">
+                <div className="p-4 border-t border-white/10 shrink-0 bg-white/5/20">
+                  <div className="flex items-end gap-3 max-w-4xl mx-auto w-full">
+                    <div className="flex-1 relative group">
                       <textarea
                         value={message}
                         onChange={e => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder={t('messages.placeholder')}
                         rows={1}
-                        className="w-full px-4 py-3 bg-black/30 border border-white/10 rounded-2xl focus:outline-none focus:border-blue-500/50 text-white placeholder-slate-500 transition-all resize-none leading-relaxed text-sm"
-                        style={{ minHeight: '48px', maxHeight: '120px' }}
+                        className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl focus:outline-none focus:border-blue-500/50 text-white placeholder-slate-500 transition-all resize-none leading-relaxed text-sm shadow-inner"
+                        style={{ minHeight: '52px', maxHeight: '160px' }}
                       />
                     </div>
                     <button
                       onClick={handleSend}
                       disabled={!message.trim() || sending}
                       className={clsx(
-                        'p-3 rounded-2xl transition-all flex items-center justify-center',
+                        'w-12 h-12 rounded-2xl mb-3 transition-all flex items-center justify-center shrink-0',
                         message.trim() && !sending
-                          ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'
+                          ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 active:scale-95'
                           : 'bg-slate-800 text-slate-500 cursor-not-allowed'
                       )}
                     >
@@ -229,11 +251,20 @@ export default function MessagesPage() {
                 </div>
               </>
             ) : (
-              <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center p-8">
-                <MessageSquare className="w-16 h-16 text-slate-600" />
+              <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center p-8 bg-black/5">
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-3xl bg-blue-500/10 flex items-center justify-center animate-pulse">
+                    <MessageSquare className="w-12 h-12 text-blue-500/50" />
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-slate-800 border border-white/10 flex items-center justify-center shadow-xl">
+                    <div className="w-2 h-2 rounded-full bg-blue-400 animate-ping" />
+                  </div>
+                </div>
                 <div>
-                  <p className="text-slate-400 font-medium">{t('messages.select_ticket')}</p>
-                  <p className="text-slate-500 text-sm mt-1">{t('messages.select_ticket_subtitle')}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{t('messages.select_ticket')}</h3>
+                  <p className="text-slate-500 text-sm max-w-xs mx-auto leading-relaxed">
+                    {t('messages.select_ticket_subtitle')}
+                  </p>
                 </div>
               </div>
             )}

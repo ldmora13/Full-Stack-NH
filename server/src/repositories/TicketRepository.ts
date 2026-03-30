@@ -6,21 +6,57 @@ export class TicketRepository {
         return db.ticket.create({ data });
     }
 
+    // Incluir payments y appointments 
     async findById(id: number): Promise<Ticket | null> {
         return db.ticket.findUnique({
             where: { id },
             include: {
-                client: { select: { name: true, email: true } },
-                advisor: { select: { name: true, email: true } },
-                comments: { include: { user: { select: { name: true } } } },
+                client: {
+                    select: { id: true, name: true, email: true, role: true }
+                },
+                advisor: {
+                    select: { id: true, name: true, email: true, role: true }
+                },
+                comments: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, role: true }
+                        }
+                    },
+                    orderBy: { createdAt: 'asc' }
+                },
                 attachments: {
                     include: {
-                        uploader: { select: { name: true, email: true } }
+                        uploader: {
+                            select: { id: true, name: true, email: true, role: true }
+                        }
                     },
                     orderBy: { createdAt: 'desc' }
-                }
+                },
+                payments: {
+                    orderBy: { createdAt: 'desc' },
+                    select: {
+                        id: true,
+                        amount: true,
+                        currency: true,
+                        status: true,
+                        paypalOrderId: true,
+                        createdAt: true,
+                    }
+                },
+                appointments: {
+                    orderBy: { date: 'asc' },
+                    select: {
+                        id: true,
+                        date: true,
+                        type: true,
+                        status: true,
+                        link: true,
+                        ticketId: true,
+                    }
+                },
             }
-        });
+        }) as any;
     }
 
     async findAll(where: Prisma.TicketWhereInput, skip: number, take: number): Promise<[Ticket[], number]> {
@@ -28,10 +64,10 @@ export class TicketRepository {
             db.ticket.findMany({
                 where,
                 include: {
-                    client: { select: { name: true, email: true } },
-                    advisor: { select: { name: true, email: true } },
+                    client: { select: { id: true, name: true, email: true } },
+                    advisor: { select: { id: true, name: true, email: true } },
                 },
-                orderBy: { createdAt: 'desc' },
+                orderBy: { updatedAt: 'desc' },
                 skip,
                 take,
             }),
@@ -46,7 +82,8 @@ export class TicketRepository {
             where: { id },
             data,
             include: {
-                client: { select: { name: true, email: true } }
+                client: { select: { id: true, name: true, email: true } },
+                advisor: { select: { id: true, name: true, email: true } },
             }
         });
     }
