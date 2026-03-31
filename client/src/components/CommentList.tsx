@@ -1,5 +1,5 @@
 import type { Comment } from '../services/commentService';
-import { UserCircle, Shield, Users } from 'lucide-react';
+import { UserCircle, Shield, Users, Network } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +11,7 @@ const roleConfig = {
     CLIENT: { icon: UserCircle, color: 'text-blue-400' },
     ADVISOR: { icon: Users, color: 'text-blue-400' },
     ADMIN: { icon: Shield, color: 'text-purple-400' },
+    COORDINATOR: { icon: Network, color: 'text-amber-400' },
 };
 
 export default function CommentList({ comments }: CommentListProps) {
@@ -28,8 +29,9 @@ export default function CommentList({ comments }: CommentListProps) {
         <div className="space-y-4">
             <AnimatePresence>
                 {comments.map((comment, index) => {
-                    const RoleIcon = roleConfig[comment.user.role].icon;
-                    const roleColor = roleConfig[comment.user.role].color;
+                    const rc = roleConfig[comment.user.role as keyof typeof roleConfig] ?? roleConfig.CLIENT;
+                    const RoleIcon = rc.icon;
+                    const roleColor = rc.color;
 
                     return (
                         <motion.div

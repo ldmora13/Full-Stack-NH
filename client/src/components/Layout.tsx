@@ -15,7 +15,9 @@ import {
   Users,
   MessageSquare,
   User,
+  ClipboardList,
 } from 'lucide-react';
+import { canAccessAssignmentPage, isAdminOnly } from '../lib/roles';
 import { clsx } from 'clsx';
 import Footer from './Footer';
 import LanguageSelector from './LanguageSelector';
@@ -46,9 +48,13 @@ export default function Layout({ children }: { children: ReactNode }) {
     { label: t('nav.profile'), icon: User, path: '/profile' },
   ];
 
-  const navItems = user?.role === 'ADMIN'
-    ? [...baseNavItems, { label: t('nav.users'), icon: Users, path: '/users' }]
-    : baseNavItems;
+  const navItems = [
+    ...baseNavItems,
+    ...(user && canAccessAssignmentPage(user.role)
+      ? [{ label: t('nav.assignment'), icon: ClipboardList, path: '/assignment' }]
+      : []),
+    ...(user && isAdminOnly(user.role) ? [{ label: t('nav.users'), icon: Users, path: '/users' }] : []),
+  ];
 
   return (
     <div className="min-h-screen text-white flex">

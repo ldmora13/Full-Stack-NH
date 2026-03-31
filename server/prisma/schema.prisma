@@ -11,6 +11,7 @@ enum Role {
   CLIENT
   ADMIN
   ADVISOR
+  COORDINATOR
 }
 
 enum TicketStatus {

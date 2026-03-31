@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { TicketService } from '../services/TicketService';
 import { catchAsync } from '../utils/catchAsync';
 import { AuditLogService } from '../services/AuditLogService';
+import { EmailService } from '../services/emailService';
 
 const ticketService = new TicketService();
 
@@ -32,6 +33,9 @@ export const getTickets = catchAsync(async (req: Request, res: Response) => {
         search,
         page,
         limit,
+        unassignedOnly,
+        createdFrom,
+        createdTo,
     } = req.query;
 
     const result = await ticketService.getTickets({
@@ -42,6 +46,17 @@ export const getTickets = catchAsync(async (req: Request, res: Response) => {
         advisorId: advisorId ? String(advisorId) : undefined,
         clientId: clientId ? String(clientId) : undefined,
         search: search ? String(search) : undefined,
+        unassignedOnly: unassignedOnly === 'true' || unassignedOnly === '1',
+        createdFrom: (() => {
+            if (!createdFrom) return undefined;
+            const d = new Date(String(createdFrom));
+            return Number.isNaN(d.getTime()) ? undefined : d;
+        })(),
+        createdTo: (() => {
+            if (!createdTo) return undefined;
+            const d = new Date(String(createdTo));
+            return Number.isNaN(d.getTime()) ? undefined : d;
+        })(),
         page: page ? Number(page) : undefined,
         limit: limit ? Number(limit) : undefined,
     });
@@ -84,6 +99,44 @@ export const updateTicket = catchAsync(async (req: Request, res: Response) => {
         userId: res.locals.user.id,
         details: { status, priority, advisorId }
     });
+
+    res.json({ ticket });
+});
+
+export const assignAdvisor = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { advisorId } = req.body;
+    const user = res.locals.user;
+
+    const ticket = await ticketService.assignAdvisorAtomic({
+        ticketId: Number(id),
+        advisorId: String(advisorId),
+    });
+
+    await AuditLogService.log({
+        action: 'ASSIGN_TICKET',
+        entity: 'TICKET',
+        entityId: String(id),
+        userId: user.id,
+        details: {
+            advisorId,
+            clientId: (ticket as { clientId: string }).clientId,
+            ticketTitle: ticket.title,
+        },
+    });
+
+    const advisorEmail = (ticket as { advisor?: { email?: string; name?: string } }).advisor?.email;
+    const advisorName = (ticket as { advisor?: { email?: string; name?: string } }).advisor?.name;
+    if (advisorEmail && advisorName) {
+        try {
+            await EmailService.sendTicketAssignedToAdvisor(
+                ticket as { id: number; title: string; client?: { name?: string } },
+                { email: advisorEmail, name: advisorName }
+            );
+        } catch (e) {
+            console.error('Failed to notify advisor of assignment:', e);
+        }
+    }
 
     res.json({ ticket });
 });

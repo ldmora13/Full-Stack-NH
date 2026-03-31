@@ -16,12 +16,12 @@ export class AuthService {
     }
 
     async signup(data: { email: string; password: string; name: string; role?: 'ADMIN' | 'ADVISOR' | 'CLIENT' }) {
-        // Check if user exists happens in UserService.createUser
+        // Public signup is always CLIENT; staff roles are created by admins only.
         const user = await this.userService.createUser({
             email: data.email,
             password: data.password,
             name: data.name,
-            role: data.role || 'CLIENT'
+            role: 'CLIENT',
         });
 
         await EmailService.sendWelcomeEmail(user);

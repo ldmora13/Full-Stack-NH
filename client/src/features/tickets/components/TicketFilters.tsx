@@ -3,6 +3,7 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { isStaffAdmin } from '../../../lib/roles';
 import { UserService, type User } from '../../../services/userService';
 import { useTranslation } from 'react-i18next';
 
@@ -137,7 +138,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                         </div>
 
                         {/* Advisor Filter (Admin only) */}
-                        {user?.role === 'ADMIN' && (
+                        {user && isStaffAdmin(user.role) && (
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-2">
                                     {t('filters.advisor')}
@@ -158,7 +159,7 @@ export default function TicketFilters({ onFilterChange }: TicketFiltersProps) {
                         )}
 
                         {/* Client Filter (Admin and Advisor) */}
-                        {(user?.role === 'ADMIN' || user?.role === 'ADVISOR') && (
+                        {((user && isStaffAdmin(user.role)) || user?.role === 'ADVISOR') && (
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-2">
                                     {t('filters.client')}

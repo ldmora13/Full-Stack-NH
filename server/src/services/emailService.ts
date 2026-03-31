@@ -90,6 +90,29 @@ export const EmailService = {
         return EmailService.sendEmail({ to: user.email, subject, html });
     },
 
+    sendTicketAssignedToAdvisor: async (
+        ticket: { id: number; title: string; client?: { name?: string } },
+        advisor: { email: string; name: string }
+    ) => {
+        const clientName = ticket.client?.name || 'Client';
+        const subject = `Nuevo caso asignado — Ticket #${ticket.id}`;
+        const html = `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <h2>Hola ${advisor.name},</h2>
+                <p>Se te ha asignado un nuevo ticket en el portal.</p>
+                <p><strong>Caso:</strong> ${ticket.title}</p>
+                <p><strong>Cliente:</strong> ${clientName}</p>
+                <p><strong>ID:</strong> #${ticket.id}</p>
+                <br>
+                <a href="${process.env.CLIENT_URL}/tickets/${ticket.id}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Abrir ticket</a>
+                <br><br>
+                <p>Atentamente,</p>
+                <p>New Horizons Immigration Law</p>
+            </div>
+        `;
+        return EmailService.sendEmail({ to: advisor.email, subject, html });
+    },
+
     sendTicketStatusUpdate: async (ticket: { id: number; title: string; status: string }, user: { email: string; name: string }) => {
         const subject = `Actualización de Estado - Ticket #${ticket.id}`;
         const html = `

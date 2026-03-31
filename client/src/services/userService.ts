@@ -4,7 +4,7 @@ export interface User {
     id: string;
     email: string;
     name: string;
-    role: 'CLIENT' | 'ADMIN' | 'ADVISOR';
+    role: 'CLIENT' | 'ADMIN' | 'ADVISOR' | 'COORDINATOR';
     createdAt: string;
 }
 
@@ -12,11 +12,11 @@ export interface CreateUserData {
     email: string;
     password: string;
     name: string;
-    role: 'CLIENT' | 'ADMIN' | 'ADVISOR';
+    role: 'CLIENT' | 'ADMIN' | 'ADVISOR' | 'COORDINATOR';
 }
 
 export const UserService = {
-    getAll: async (role?: 'CLIENT' | 'ADMIN' | 'ADVISOR') => {
+    getAll: async (role?: 'CLIENT' | 'ADMIN' | 'ADVISOR' | 'COORDINATOR') => {
         const params = role ? { role } : {};
         const { data } = await api.get<{ users: User[] }>('/users', { params });
         return data.users;

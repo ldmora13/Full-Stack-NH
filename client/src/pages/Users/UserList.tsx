@@ -14,6 +14,7 @@ const roleConfig = {
     CLIENT: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: UserCircle },
     ADVISOR: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: UsersIcon },
     ADMIN: { color: 'text-purple-400', bg: 'bg-purple-500/10', icon: Shield },
+    COORDINATOR: { color: 'text-amber-400', bg: 'bg-amber-500/10', icon: Shield },
 };
 
 export default function UserList() {
@@ -69,7 +70,7 @@ export default function UserList() {
         <Layout>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-300">
+                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-blue-300">
                         {t('nav.users')}
                     </h1>
                     <p className="text-slate-400 mt-1 text-lg">{t('users.subtitle')}</p>
@@ -109,7 +110,7 @@ export default function UserList() {
                                         <tr key={user.id} className="hover:bg-slate-800/30 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                                                         <span className="text-blue-400 font-bold text-sm">
                                                             {user.name.charAt(0).toUpperCase()}
                                                         </span>

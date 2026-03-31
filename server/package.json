@@ -4,12 +4,14 @@
     "description": "",
     "main": "dist/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "build": "tsc",
         "start": "prisma migrate deploy && node dist/index.js",
         "dev": "tsx watch src/index.ts",
         "prisma:generate": "prisma generate",
-        "prisma:push": "prisma db push"
+        "prisma:push": "prisma db push",
+        "create-admin": "tsx src/scripts/createAdmin.ts"
     },
     "keywords": [],
     "author": "",
@@ -51,6 +53,7 @@
         "prisma": "^5.13.0",
         "ts-node": "^10.9.2",
         "tsx": "^4.21.0",
-        "typescript": "^5.4.5"
+        "typescript": "^5.4.5",
+        "vitest": "^3.2.4"
     }
 }

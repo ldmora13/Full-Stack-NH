@@ -16,11 +16,13 @@
         "user": "User",
         "role": "Role",
         "view_all": "View all",
-        "no_data": "No cases to display"
+        "no_data": "No cases to display",
+        "view": "View"
     },
     "nav": {
         "dashboard": "Dashboard",
         "tickets": "My Cases",
+        "assignment": "Assignment",
         "users": "Users",
         "logout": "Logout",
         "new_ticket": "New Service Request",
@@ -58,7 +60,26 @@
     "roles": {
         "CLIENT": "Client",
         "ADVISOR": "Advisor",
-        "ADMIN": "Admin"
+        "ADMIN": "Admin",
+        "COORDINATOR": "Coordinator"
+    },
+    "coordinator": {
+        "title": "Case assignment",
+        "subtitle": "Review unassigned cases and assign them to an advisor.",
+        "unassigned_only": "Unassigned only",
+        "assign": "Assign",
+        "assign_advisor": "Assign advisor",
+        "select_advisor": "Advisor",
+        "select_placeholder": "Select an advisor",
+        "confirm_assign": "Confirm assignment",
+        "assign_success": "Case assigned successfully",
+        "assign_error": "Could not assign the case",
+        "unassigned": "Unassigned",
+        "created": "Created",
+        "created_from": "Created from",
+        "created_to": "Created to",
+        "no_tickets": "No cases match the current filters.",
+        "col_title": "Title"
     },
     "auth": {
         "login": {
@@ -103,7 +124,8 @@
             "attachments": "Attachments",
             "started": "Started:",
             "priority": "Priority",
-            "not_found": "Case not found"
+            "not_found": "Case not found",
+            "assigned_advisor": "Assigned advisor"
         },
         "fields": {
             "subject": "Case Subject",
@@ -123,6 +145,44 @@
             "upload_btn": "Upload",
             "file": "file",
             "files": "files"
+        },
+        "process_tracking": {
+            "title": "Process tracking",
+            "subtitle": "Real-time status of your relocation or immigration process.",
+            "progress": "Progress",
+            "updated_at": "Updated",
+            "update_status": "Update status",
+            "completed_message": "The process has been fully completed.",
+            "no_history": "No updates recorded yet.",
+            "tooltip_prefix": "Description for",
+            "status": {
+                "pending": "Pending",
+                "in_progress": "In progress",
+                "completed": "Completed"
+            },
+            "errors": {
+                "previous_stages_required": "You cannot advance this stage until all previous stages are completed.",
+                "checklist_required": "All required checklist items must be approved before moving to the next stage.",
+                "save_failed": "Could not save progress. Please try again."
+            }
+        },
+        "checklist": {
+            "title": "Process requirements",
+            "required": "Required",
+            "upload": "Upload file",
+            "uploading": "Uploading...",
+            "updated_at": "Updated",
+            "files_count": "{{count}} file(s)",
+            "status": {
+                "pending": "Pending",
+                "uploaded": "Uploaded",
+                "approved": "Approved",
+                "rejected": "Rejected"
+            },
+            "errors": {
+                "upload_failed": "Could not upload requirement file.",
+                "save_failed": "Could not save requirement status."
+            }
         }
     },
     "ticket_config": {

@@ -15,11 +15,13 @@
         "user": "Usuário",
         "role": "Função",
         "view_all": "Ver todos",
-        "no_data": "Não há processos para exibir"
+        "no_data": "Não há processos para exibir",
+        "view": "Ver"
     },
     "nav": {
         "dashboard": "Painel",
         "tickets": "Meus Processos",
+        "assignment": "Atribuição",
         "users": "Usuários",
         "logout": "Sair",
         "new_ticket": "Novo Processo",
@@ -57,7 +59,26 @@
     "roles": {
         "CLIENT": "Cliente",
         "ADVISOR": "Consultor",
-        "ADMIN": "Administrador"
+        "ADMIN": "Administrador",
+        "COORDINATOR": "Coordenador"
+    },
+    "coordinator": {
+        "title": "Atribuição de processos",
+        "subtitle": "Revise processos sem consultor e atribua a um consultor disponível.",
+        "unassigned_only": "Apenas não atribuídos",
+        "assign": "Atribuir",
+        "assign_advisor": "Atribuir consultor",
+        "select_advisor": "Consultor",
+        "select_placeholder": "Selecione um consultor",
+        "confirm_assign": "Confirmar atribuição",
+        "assign_success": "Processo atribuído com sucesso",
+        "assign_error": "Não foi possível atribuir o processo",
+        "unassigned": "Não atribuído",
+        "created": "Criado",
+        "created_from": "Criado a partir de",
+        "created_to": "Criado até",
+        "no_tickets": "Nenhum processo corresponde aos filtros.",
+        "col_title": "Título"
     },
     "auth": {
         "login": {
@@ -102,7 +123,8 @@
             "attachments": "Anexos",
             "started": "Iniciado em:",
             "priority": "Prioridade",
-            "not_found": "Caso não encontrado"
+            "not_found": "Caso não encontrado",
+            "assigned_advisor": "Consultor atribuído"
         },
         "fields": {
             "subject": "Assunto do Caso",
@@ -122,6 +144,44 @@
             "upload_btn": "Enviar",
             "file": "arquivo",
             "files": "arquivos"
+        },
+        "process_tracking": {
+            "title": "Acompanhamento do processo",
+            "subtitle": "Status em tempo real do processo de relocação ou imigração.",
+            "progress": "Progresso",
+            "updated_at": "Atualizado",
+            "update_status": "Atualizar status",
+            "completed_message": "O processo foi concluído totalmente.",
+            "no_history": "Nenhuma atualização registrada ainda.",
+            "tooltip_prefix": "Descrição de",
+            "status": {
+                "pending": "Pendente",
+                "in_progress": "Em andamento",
+                "completed": "Concluído"
+            },
+            "errors": {
+                "previous_stages_required": "Você não pode avançar esta etapa até concluir todas as anteriores.",
+                "checklist_required": "Todos os requisitos obrigatórios devem ser aprovados antes de avançar para a próxima etapa.",
+                "save_failed": "Não foi possível salvar o progresso. Tente novamente."
+            }
+        },
+        "checklist": {
+            "title": "Requisitos do processo",
+            "required": "Obrigatório",
+            "upload": "Enviar arquivo",
+            "uploading": "Enviando...",
+            "updated_at": "Atualizado",
+            "files_count": "{{count}} arquivo(s)",
+            "status": {
+                "pending": "Pendente",
+                "uploaded": "Enviado",
+                "approved": "Aprovado",
+                "rejected": "Rejeitado"
+            },
+            "errors": {
+                "upload_failed": "Não foi possível enviar o arquivo do requisito.",
+                "save_failed": "Não foi possível salvar o status do requisito."
+            }
         }
     },
     "ticket_config": {

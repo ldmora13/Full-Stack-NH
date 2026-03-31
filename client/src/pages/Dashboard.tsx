@@ -1,7 +1,8 @@
 import { useAuth } from '../context/AuthContext';
+import { canAccessAssignmentPage } from '../lib/roles';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
-import { Ticket, Clock, CheckCircle, AlertCircle, ArrowRight, Zap } from 'lucide-react';
+import { Ticket, Clock, CheckCircle, AlertCircle, ArrowRight, Zap, ClipboardList } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useStats } from '../features/dashboard/hooks/useStats';
 import StatCard from '../components/StatCard';
@@ -195,6 +196,22 @@ function StaffDashboard() {
         </h1>
         <p className="text-slate-400 mt-1">{user?.name} · {user?.role}</p>
       </div>
+
+      {canAccessAssignmentPage(user?.role) && (
+        <Link
+          to="/assignment"
+          className="flex items-center justify-between gap-4 p-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <ClipboardList className="w-6 h-6 text-amber-400 shrink-0" />
+            <div>
+              <p className="font-medium text-white">{t('coordinator.title')}</p>
+              <p className="text-sm text-slate-400">{t('coordinator.subtitle')}</p>
+            </div>
+          </div>
+          <ArrowRight className="w-5 h-5 text-amber-400 shrink-0" />
+        </Link>
+      )}
 
       {/* Stats grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

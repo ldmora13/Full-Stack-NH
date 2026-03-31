@@ -30,12 +30,12 @@ export class UserService {
         });
     }
 
-    async getUsers(role?: 'ADMIN' | 'ADVISOR' | 'CLIENT'): Promise<User[]> {
+    async getUsers(role?: 'ADMIN' | 'ADVISOR' | 'CLIENT' | 'COORDINATOR'): Promise<User[]> {
         const where: Prisma.UserWhereInput = role ? { role } : {};
         return this.userRepository.findAll(where);
     }
 
-    async updateUser(id: string, data: { name?: string; role?: 'ADMIN' | 'ADVISOR' | 'CLIENT' }): Promise<User> {
+    async updateUser(id: string, data: { name?: string; role?: 'ADMIN' | 'ADVISOR' | 'CLIENT' | 'COORDINATOR' }): Promise<User> {
         return this.userRepository.update(id, data);
     }
 }

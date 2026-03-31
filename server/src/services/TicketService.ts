@@ -1,32 +1,71 @@
 import { Ticket, TicketStatus, Priority, TicketType, Prisma } from '@prisma/client';
+import { db } from '../lib/db';
 import { TicketRepository } from '../repositories/TicketRepository';
 import { AppError } from '../utils/AppError';
 import { EmailService } from './emailService';
+import { isStaffAdminRole } from '../utils/roles';
 import { WORKFLOW_CONFIG } from '../config/workflow';
 import { AttachmentService } from './AttachmentService';
 
-const validateAndSanitizeMetadata = (type: TicketType, metadata?: any) => {
+const ALLOWED_STAGE_STATUS = ['PENDING', 'CURRENT', 'COMPLETED'] as const;
+const ALLOWED_CHECKLIST_STATUS = ['PENDING', 'UPLOADED', 'APPROVED', 'REJECTED'] as const;
+
+const validateAndSanitizeMetadata = (type: TicketType, metadata?: any, previousMetadata?: any) => {
     const workflowConfig = WORKFLOW_CONFIG[type as keyof typeof WORKFLOW_CONFIG];
     if (!workflowConfig) return WORKFLOW_CONFIG['OTHER'];
 
-    // Si no hay metadata, usar el config del workflow
-    if (!metadata) return workflowConfig;
+    const safePrevious = previousMetadata && typeof previousMetadata === 'object' ? previousMetadata : {};
+    const safeIncoming = metadata && typeof metadata === 'object' ? metadata : {};
+    const mergedMetadata = { ...safePrevious, ...safeIncoming };
 
-    // Si tiene stages, validar que los ids sean válidos
-    if (metadata.stages) {
-        const validStageIds = workflowConfig.stages.map((s: any) => s.id);
-        const sanitizedStages = metadata.stages.filter((s: any) =>
-            validStageIds.includes(s.id) &&
-            ['PENDING', 'CURRENT', 'COMPLETED'].includes(s.status)
-        );
-        // Si los stages no son válidos, usar los del workflow
-        if (sanitizedStages.length !== workflowConfig.stages.length) {
-            return workflowConfig;
-        }
-        return { ...workflowConfig, stages: sanitizedStages };
-    }
+    const validStageIds = workflowConfig.stages.map((s: any) => s.id);
+    const stagesFromMetadata = Array.isArray(mergedMetadata.stages) ? mergedMetadata.stages : [];
+    const stageMap = new Map(stagesFromMetadata.map((s: any) => [s.id, s]));
+    const sanitizedStages = workflowConfig.stages.map((stage: any, index: number) => {
+        const incoming = stageMap.get(stage.id) as { status?: string } | undefined;
+        const incomingStatus = incoming?.status;
+        const fallbackStatus = index === 0 ? 'CURRENT' : 'PENDING';
 
-    return workflowConfig;
+        return {
+            ...stage,
+            status: (ALLOWED_STAGE_STATUS as readonly string[]).includes(incomingStatus ?? '')
+                ? (incomingStatus as (typeof ALLOWED_STAGE_STATUS)[number])
+                : fallbackStatus,
+        };
+    });
+
+    const validChecklistIds = workflowConfig.checklist.map((c: any) => c.id);
+    const checklistFromMetadata = Array.isArray(mergedMetadata.checklist) ? mergedMetadata.checklist : [];
+    const checklistMap = new Map(checklistFromMetadata.map((c: any) => [c.id, c]));
+    const sanitizedChecklist = workflowConfig.checklist.map((item: any) => {
+        const incoming = checklistMap.get(item.id) as {
+            status?: string;
+            attachmentIds?: unknown;
+            updatedAt?: string;
+            reviewedAt?: string;
+            reviewedBy?: string;
+        } | undefined;
+        const incomingStatus = incoming?.status;
+
+        return {
+            ...item,
+            status: (ALLOWED_CHECKLIST_STATUS as readonly string[]).includes(incomingStatus ?? '')
+                ? (incomingStatus as (typeof ALLOWED_CHECKLIST_STATUS)[number])
+                : 'PENDING',
+            attachmentIds: Array.isArray(incoming?.attachmentIds)
+                ? incoming.attachmentIds.filter((id: unknown) => typeof id === 'number')
+                : [],
+            updatedAt: typeof incoming?.updatedAt === 'string' ? incoming.updatedAt : undefined,
+            reviewedAt: typeof incoming?.reviewedAt === 'string' ? incoming.reviewedAt : undefined,
+            reviewedBy: typeof incoming?.reviewedBy === 'string' ? incoming.reviewedBy : undefined,
+        };
+    });
+
+    return {
+        ...mergedMetadata,
+        stages: sanitizedStages,
+        checklist: sanitizedChecklist,
+    };
 };
 
 export class TicketService {
@@ -54,7 +93,8 @@ export class TicketService {
         // Validar metadata contra el workflow
         const sanitizedMetadata = validateAndSanitizeMetadata(
             ticketType as TicketType,
-            data.metadata
+            data.metadata,
+            undefined
         );
 
         return this.ticketRepository.create({
@@ -76,10 +116,26 @@ export class TicketService {
         advisorId?: string;
         clientId?: string;
         search?: string;
+        unassignedOnly?: boolean;
+        createdFrom?: Date;
+        createdTo?: Date;
         page?: number;
         limit?: number;
     }): Promise<{ tickets: Ticket[]; total: number; pages: number }> {
-        const { userId, userRole, status, priority, advisorId, clientId, search, page = 1, limit = 10 } = params;
+        const {
+            userId,
+            userRole,
+            status,
+            priority,
+            advisorId,
+            clientId,
+            search,
+            unassignedOnly,
+            createdFrom,
+            createdTo,
+            page = 1,
+            limit = 10,
+        } = params;
 
         const where: Prisma.TicketWhereInput = {};
 
@@ -92,11 +148,11 @@ export class TicketService {
         if (status) where.status = status;
         if (priority) where.priority = priority;
 
-        if (advisorId && userRole === 'ADMIN') {
+        if (advisorId && isStaffAdminRole(userRole)) {
             where.advisorId = advisorId;
         }
 
-        if (clientId && (userRole === 'ADMIN' || userRole === 'ADVISOR')) {
+        if (clientId && (isStaffAdminRole(userRole) || userRole === 'ADVISOR')) {
             where.clientId = clientId;
         }
 
@@ -105,6 +161,16 @@ export class TicketService {
                 { title: { contains: search, mode: 'insensitive' } },
                 { description: { contains: search, mode: 'insensitive' } },
             ];
+        }
+
+        if (unassignedOnly && isStaffAdminRole(userRole)) {
+            where.advisorId = null;
+        }
+
+        if ((createdFrom || createdTo) && isStaffAdminRole(userRole)) {
+            where.createdAt = {};
+            if (createdFrom) where.createdAt.gte = createdFrom;
+            if (createdTo) where.createdAt.lte = createdTo;
         }
 
         const skip = (page - 1) * limit;
@@ -157,7 +223,8 @@ export class TicketService {
         if (data.metadata) {
             sanitizedData.metadata = validateAndSanitizeMetadata(
                 existingTicket.type as TicketType,
-                data.metadata
+                data.metadata,
+                existingTicket.metadata
             );
         }
 
@@ -169,5 +236,72 @@ export class TicketService {
         }
 
         return updatedTicket;
+    }
+
+    /**
+     * First-time assignment only (advisorId must be null). Atomic via updateMany to avoid double assignment.
+     */
+    async assignAdvisorAtomic(params: {
+        ticketId: number;
+        advisorId: string;
+    }): Promise<Ticket> {
+        const maxLoad = Number(process.env.ADVISOR_MAX_OPEN_TICKETS ?? 50);
+
+        return db.$transaction(async (tx) => {
+            const advisor = await tx.user.findUnique({ where: { id: params.advisorId } });
+            if (!advisor || advisor.role !== 'ADVISOR') {
+                throw new AppError('Selected user is not an available advisor', 400);
+            }
+
+            const activeLoad = await tx.ticket.count({
+                where: {
+                    advisorId: params.advisorId,
+                    status: { in: ['OPEN', 'IN_PROGRESS'] },
+                },
+            });
+            if (activeLoad >= maxLoad) {
+                throw new AppError(
+                    'Advisor has reached maximum active ticket capacity. Choose another advisor.',
+                    409
+                );
+            }
+
+            const ticketRow = await tx.ticket.findUnique({ where: { id: params.ticketId } });
+            if (!ticketRow) {
+                throw new AppError('Ticket not found', 404);
+            }
+            if (ticketRow.advisorId !== null) {
+                throw new AppError('Ticket already assigned', 409);
+            }
+
+            const nextStatus: TicketStatus =
+                ticketRow.status === 'OPEN' ? 'IN_PROGRESS' : ticketRow.status;
+
+            const updated = await tx.ticket.updateMany({
+                where: { id: params.ticketId, advisorId: null },
+                data: {
+                    advisorId: params.advisorId,
+                    status: nextStatus,
+                },
+            });
+
+            if (updated.count !== 1) {
+                throw new AppError('Ticket already assigned', 409);
+            }
+
+            const full = await tx.ticket.findUnique({
+                where: { id: params.ticketId },
+                include: {
+                    client: { select: { id: true, name: true, email: true, role: true } },
+                    advisor: { select: { id: true, name: true, email: true, role: true } },
+                },
+            });
+
+            if (!full) {
+                throw new AppError('Ticket not found', 404);
+            }
+
+            return full as Ticket;
+        });
     }
 }

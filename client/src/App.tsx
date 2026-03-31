@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import CreateTicket from './pages/Tickets/CreateTicket';
 import TicketDetail from './pages/Tickets/TicketDetail';
 import UserList from './pages/Users/UserList';
+import CoordinatorAssignment from './pages/Coordinator/CoordinatorAssignment';
 import MessagesPage from './pages/Messages/MessagesPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 
@@ -51,6 +52,7 @@ function AppRoutes() {
         <Route path="/tickets" element={<TicketList />} />
         <Route path="/tickets/new" element={<CreateTicket />} />
         <Route path="/tickets/:id" element={<TicketDetail />} />
+        <Route path="/assignment" element={<CoordinatorAssignment />} />
         <Route path="/users" element={<UserList />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/profile/*" element={<ProfilePage />} />

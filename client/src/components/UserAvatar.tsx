@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 
 interface UserAvatarProps {
   name: string;
-  role?: 'CLIENT' | 'ADMIN' | 'ADVISOR';
+  role?: 'CLIENT' | 'ADMIN' | 'ADVISOR' | 'COORDINATOR';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   showBadge?: boolean;
   className?: string;
@@ -43,6 +43,7 @@ const roleBadgeColors = {
   CLIENT: 'bg-blue-500',
   ADVISOR: 'bg-emerald-500',
   ADMIN: 'bg-purple-500',
+  COORDINATOR: 'bg-amber-500',
 };
 
 export default function UserAvatar({ name, role, size = 'md', showBadge = false, className }: UserAvatarProps) {
@@ -64,7 +65,7 @@ export default function UserAvatar({ name, role, size = 'md', showBadge = false,
         <div
           className={clsx(
             'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-900',
-            roleBadgeColors[role]
+            roleBadgeColors[role as keyof typeof roleBadgeColors]
           )}
         />
       )}

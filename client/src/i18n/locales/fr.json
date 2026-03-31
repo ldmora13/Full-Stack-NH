@@ -15,11 +15,13 @@
         "user": "Utilisateur",
         "role": "Rôle",
         "view_all": "Voir tout",
-        "no_data": "Aucun dossier à afficher"
+        "no_data": "Aucun dossier à afficher",
+        "view": "Voir"
     },
     "nav": {
         "dashboard": "Tableau de bord",
         "tickets": "Mes Dossiers",
+        "assignment": "Attribution",
         "users": "Utilisateurs",
         "logout": "Déconnexion",
         "new_ticket": "Nouvelle Demande",
@@ -57,7 +59,26 @@
     "roles": {
         "CLIENT": "Client",
         "ADVISOR": "Conseiller",
-        "ADMIN": "Admin"
+        "ADMIN": "Admin",
+        "COORDINATOR": "Coordinateur"
+    },
+    "coordinator": {
+        "title": "Attribution des dossiers",
+        "subtitle": "Consultez les dossiers non assignés et attribuez-les à un conseiller.",
+        "unassigned_only": "Non assignés uniquement",
+        "assign": "Attribuer",
+        "assign_advisor": "Attribuer un conseiller",
+        "select_advisor": "Conseiller",
+        "select_placeholder": "Sélectionnez un conseiller",
+        "confirm_assign": "Confirmer l'attribution",
+        "assign_success": "Dossier attribué avec succès",
+        "assign_error": "Impossible d'attribuer le dossier",
+        "unassigned": "Non assigné",
+        "created": "Créé",
+        "created_from": "Créé à partir du",
+        "created_to": "Créé jusqu'au",
+        "no_tickets": "Aucun dossier ne correspond aux filtres.",
+        "col_title": "Titre"
     },
     "auth": {
         "login": {
@@ -102,7 +123,8 @@
             "attachments": "Pièces Jointes",
             "started": "Commencé:",
             "priority": "Priorité",
-            "not_found": "Dossier introuvable"
+            "not_found": "Dossier introuvable",
+            "assigned_advisor": "Conseiller assigné"
         },
         "fields": {
             "subject": "Sujet du Dossier",
@@ -122,6 +144,44 @@
             "upload_btn": "Télécharger",
             "file": "fichier",
             "files": "fichiers"
+        },
+        "process_tracking": {
+            "title": "Suivi du processus",
+            "subtitle": "Statut en temps réel de votre processus de relocalisation ou d'immigration.",
+            "progress": "Progression",
+            "updated_at": "Mis à jour",
+            "update_status": "Mettre à jour le statut",
+            "completed_message": "Le processus est entièrement terminé.",
+            "no_history": "Aucune mise à jour enregistrée pour le moment.",
+            "tooltip_prefix": "Description de",
+            "status": {
+                "pending": "En attente",
+                "in_progress": "En cours",
+                "completed": "Terminé"
+            },
+            "errors": {
+                "previous_stages_required": "Vous ne pouvez pas avancer cette étape avant de terminer toutes les étapes précédentes.",
+                "checklist_required": "Tous les éléments obligatoires doivent être approuvés avant de passer à l'étape suivante.",
+                "save_failed": "Impossible d'enregistrer la progression. Réessayez."
+            }
+        },
+        "checklist": {
+            "title": "Exigences du dossier",
+            "required": "Obligatoire",
+            "upload": "Téléverser un fichier",
+            "uploading": "Téléversement...",
+            "updated_at": "Mis à jour",
+            "files_count": "{{count}} fichier(s)",
+            "status": {
+                "pending": "En attente",
+                "uploaded": "Téléversé",
+                "approved": "Approuvé",
+                "rejected": "Rejeté"
+            },
+            "errors": {
+                "upload_failed": "Impossible de téléverser le fichier requis.",
+                "save_failed": "Impossible d'enregistrer le statut du document."
+            }
         }
     },
     "ticket_config": {

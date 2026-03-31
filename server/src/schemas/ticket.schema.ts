@@ -40,5 +40,17 @@ export const getTicketsSchema = registry.register('GetTickets', z.object({
         search: z.string().optional(),
         advisorId: z.string().optional(),
         clientId: z.string().optional(),
+        unassignedOnly: z.string().optional(),
+        createdFrom: z.string().optional(),
+        createdTo: z.string().optional(),
+    }),
+}));
+
+export const assignAdvisorSchema = registry.register('AssignAdvisor', z.object({
+    body: z.object({
+        advisorId: z.string().min(1, 'advisorId is required').openapi({ example: 'cm6...' }),
+    }),
+    params: z.object({
+        id: z.string().openapi({ example: '123' }),
     }),
 }));

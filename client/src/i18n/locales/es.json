@@ -15,11 +15,13 @@
         "user": "Usuario",
         "role": "Rol",
         "view_all": "Ver todos",
-        "no_data": "No hay expedientes para mostrar"
+        "no_data": "No hay expedientes para mostrar",
+        "view": "Ver"
     },
     "nav": {
         "dashboard": "Panel de Control",
         "tickets": "Mis Trámites",
+        "assignment": "Asignación",
         "users": "Usuarios",
         "logout": "Cerrar Sesión",
         "new_ticket": "Nuevo Trámite",
@@ -57,7 +59,26 @@
     "roles": {
         "CLIENT": "Cliente",
         "ADVISOR": "Asesor",
-        "ADMIN": "Administrador"
+        "ADMIN": "Administrador",
+        "COORDINATOR": "Coordinador"
+    },
+    "coordinator": {
+        "title": "Asignación de expedientes",
+        "subtitle": "Revise los casos sin asesor y asígnelos a un asesor disponible.",
+        "unassigned_only": "Solo sin asignar",
+        "assign": "Asignar",
+        "assign_advisor": "Asignar asesor",
+        "select_advisor": "Asesor",
+        "select_placeholder": "Seleccione un asesor",
+        "confirm_assign": "Confirmar asignación",
+        "assign_success": "Caso asignado correctamente",
+        "assign_error": "No se pudo asignar el caso",
+        "unassigned": "Sin asignar",
+        "created": "Creado",
+        "created_from": "Creado desde",
+        "created_to": "Creado hasta",
+        "no_tickets": "No hay expedientes que coincidan con los filtros.",
+        "col_title": "Título"
     },
     "auth": {
         "login": {
@@ -102,7 +123,8 @@
             "attachments": "Archivos Adjuntos",
             "started": "Iniciado:",
             "priority": "Prioridad",
-            "not_found": "Caso no encontrado"
+            "not_found": "Caso no encontrado",
+            "assigned_advisor": "Asesor asignado"
         },
         "fields": {
             "subject": "Asunto del Caso",
@@ -122,6 +144,44 @@
             "upload_btn": "Subir",
             "file": "archivo",
             "files": "archivos"
+        },
+        "process_tracking": {
+            "title": "Seguimiento del proceso",
+            "subtitle": "Estado actualizado en tiempo real del proceso de relocalización o inmigración.",
+            "progress": "Avance",
+            "updated_at": "Actualizado",
+            "update_status": "Actualizar estado",
+            "completed_message": "El proceso ha sido completado en su totalidad.",
+            "no_history": "No hay cambios registrados todavía.",
+            "tooltip_prefix": "Descripción de",
+            "status": {
+                "pending": "Pendiente",
+                "in_progress": "En progreso",
+                "completed": "Completado"
+            },
+            "errors": {
+                "previous_stages_required": "No puedes avanzar esta etapa hasta completar todas las etapas anteriores.",
+                "checklist_required": "Debes aprobar todos los requisitos obligatorios antes de continuar al siguiente stage.",
+                "save_failed": "No se pudo guardar el avance. Intenta nuevamente."
+            }
+        },
+        "checklist": {
+            "title": "Requisitos del trámite",
+            "required": "Requerido",
+            "upload": "Subir archivo",
+            "uploading": "Subiendo...",
+            "updated_at": "Actualizado",
+            "files_count": "{{count}} archivo(s)",
+            "status": {
+                "pending": "Pendiente",
+                "uploaded": "Subido",
+                "approved": "Aprobado",
+                "rejected": "Rechazado"
+            },
+            "errors": {
+                "upload_failed": "No se pudo subir el archivo del requisito.",
+                "save_failed": "No se pudo guardar el estado del requisito."
+            }
         }
     },
     "ticket_config": {

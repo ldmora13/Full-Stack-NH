@@ -1,5 +1,4 @@
 import api from '../lib/api';
-import type { User } from '../types/auth';
 
 export interface Ticket {
     id: number;
@@ -28,6 +27,13 @@ export interface Ticket {
             email: string;
         };
     }>;
+    payments?: Array<{
+        id: number;
+        amount: number;
+        currency: string;
+        status: string;
+        createdAt: string;
+    }>;
     type: string;
     metadata?: any;
 }
@@ -46,12 +52,27 @@ export interface TicketFilters {
     advisorId?: string;
     clientId?: string;
     search?: string;
+    unassignedOnly?: boolean;
+    createdFrom?: string;
+    createdTo?: string;
     page?: number;
     limit?: number;
 }
 
 export const TicketService = {
     getAll: async (params?: TicketFilters) => {
+        const query: Record<string, string | number | boolean> = {};
+        if (params?.status) query.status = params.status;
+        if (params?.priority) query.priority = params.priority;
+        if (params?.advisorId) query.advisorId = params.advisorId;
+        if (params?.clientId) query.clientId = params.clientId;
+        if (params?.search) query.search = params.search;
+        if (params?.unassignedOnly) query.unassignedOnly = 'true';
+        if (params?.createdFrom) query.createdFrom = params.createdFrom;
+        if (params?.createdTo) query.createdTo = params.createdTo;
+        if (params?.page != null) query.page = params.page;
+        if (params?.limit != null) query.limit = params.limit;
+
         const { data } = await api.get<{
             tickets: Ticket[];
             pagination: {
@@ -60,8 +81,15 @@ export const TicketService = {
                 total: number;
                 totalPages: number;
             };
-        }>('/tickets', { params });
+        }>('/tickets', { params: query });
         return data;
+    },
+
+    assignAdvisor: async (ticketId: number, advisorId: string) => {
+        const { data } = await api.post<{ ticket: Ticket }>(`/tickets/${ticketId}/assign-advisor`, {
+            advisorId,
+        });
+        return data.ticket;
     },
 
     getById: async (id: number) => {

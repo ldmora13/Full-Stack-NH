@@ -41,6 +41,7 @@ function PersonalInfo() {
           <span className={clsx(
             'mt-2 inline-block px-3 py-1 rounded-full text-xs font-semibold',
             user?.role === 'ADMIN' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+            user?.role === 'COORDINATOR' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
             user?.role === 'ADVISOR' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
             'bg-blue-500/10 text-blue-400 border border-blue-500/20'
           )}>

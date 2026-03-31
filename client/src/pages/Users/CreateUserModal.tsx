@@ -23,6 +23,7 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
         role: 'CLIENT',
     });
 
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({
             ...formData,
@@ -100,30 +101,19 @@ export default function CreateUserModal({ onClose, onUserCreated }: CreateUserMo
                             <label className="block text-sm font-medium text-slate-300 mb-2">
                                 {t('modals.create_user.fields.role')}
                             </label>
-                            <div className="w-full flex gap-2">
-                            {([
-                                { value: "CLIENT", label: t('roles.CLIENT') },
-                                { value: "ADVISOR", label: t('roles.ADVISOR') },
-                                { value: "ADMIN", label: t('roles.ADMIN') },
-                            ] as const).map((role) => (
-                                <button
-                                    key={role.value}
-                                    type="button"
-                                    onClick={() =>
-                                        setFormData((prev) => ({ ...prev, role: role.value }))
-                                    }
-                                    className={`flex-1 px-4 py-3 rounded-xl border transition-all text-white
-                                    ${
-                                    formData.role === role.value
-                                        ? "border-purple-500/50 ring-2 ring-purple-500/10"
-                                        : "bg-black/30 border-white/10 hover:border-purple-500/30"
-                                    }
-                                `}
-                                >
-                                {role.label}
-                                </button>
-                            ))}
-                            </div>
+                            <select
+                                name="role"
+                                id="role"
+                                className="w-full ring-2 rounded-md ring-purple-500/10 bg-black/30 border-white/10 hover:border-purple-500/30 py-3 px-4"
+                                value={formData.role}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option className='text-black' value="CLIENT">{t('roles.CLIENT')}</option>
+                                <option className='text-black' value="ADVISOR">{t('roles.ADVISOR')}</option>
+                                <option className='text-black' value="COORDINATOR">{t('roles.COORDINATOR')}</option>
+                                <option className='text-black' value="ADMIN">{t('roles.ADMIN')}</option>
+                            </select>
                         </div>
 
                         {error && (
