@@ -11,7 +11,7 @@
         "dev": "tsx watch src/index.ts",
         "prisma:generate": "prisma generate",
         "prisma:push": "prisma db push",
-        "create-admin": "tsx src/scripts/createAdmin.ts"
+        "create-admin": "node dist/scripts/createAdmin.js || tsx src/scripts/createAdmin.ts"
     },
     "keywords": [],
     "author": "",
